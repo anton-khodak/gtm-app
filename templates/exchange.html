@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>На вашем счету <p id="score">{{ score }}</p> баллов</h4>
+<form action="" method="post" id="exchange-form">
+    {% csrf_token %}
+    <input type="text" name="exchange" id="exchange-sum"> Сколько вы хотите обменять?
+    <button type="submit" name="submit-exchange" id="exchange-button">Обменять</button>
+    {% endblock content %}
+</form>
+

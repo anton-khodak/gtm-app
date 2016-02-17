@@ -1,0 +1,61 @@
+# Ignoring "*~" backup files (created by GEdit & co.)
+**/*~
+**/*.py[cod]
+**/*.json
+
+# Anton extended these rules for gitignore from python boilerplate
+# https://github.com/github/gitignore/blob/master/Python.gitignore
+# Byte-compiled / optimized / DLL files
+# __pycache__/ <-- commented as suspicious (m-alexey, 17.01.15)
+# *.py[cod] <-- same here (m-alexey, 17.01.15)
+
+# C extensions
+*.so
+
+# Distribution / packaging
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+.idea/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+# PyCharm cache
+.idea

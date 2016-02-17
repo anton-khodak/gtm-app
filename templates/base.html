@@ -1,0 +1,50 @@
+{% load staticfiles %}
+{% load rest_framework %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  {% block head %}
+
+    {% block meta %}
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <meta name="robots" content="NONE,NOARCHIVE" />
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
+</script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src={% static 'rest_framework/js/own.js' %}></script>
+
+    {% endblock %}
+
+    <title>{% block title %}Django REST framework{% endblock %}</title>
+
+    {% block style %}
+      {% block bootstrap_theme %}
+        <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/bootstrap.min.css" %}"/>
+{#        <link rel="stylesheet" type="text/css" href="{% static "Skeleton-2.0.4/css/normalize.css" %}"/>#}
+{#        <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/bootstrap-tweaks.css" %}"/>#}
+      {% endblock %}
+
+{#      <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/prettify.css" %}"/>#}
+      <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/own.css" %}"/>
+{#      <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/default.css" %}"/>#}
+    {% endblock %}
+
+  {% endblock %}
+</head>
+
+{% block body %}
+<body class="{% block bodyclass %}{% endblock %}">
+
+<div class="container main-block">
+    {% block content %}
+{% endblock content %}
+</div>
+<br>
+<br>
+{#    <a href="/home/">На главную</a>#}
+
+</body>
+{% endblock body %}
+</html>

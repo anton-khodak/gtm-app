@@ -1,0 +1,5 @@
+<ul>
+        {% for poll in object_list %}
+            <li><a href={{ poll.poll.id }}/ >{{ poll.poll }}</a></li>
+        {% endfor %}
+    </ul>
