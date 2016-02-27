@@ -1,14 +1,15 @@
+import datetime
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.http.request import QueryDict
 from django.shortcuts import render
-from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic.base import View, TemplateView
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import status
-from rest_framework.request import Request
 from rest_framework.response import Response
 from users.models import UserProfile
-from users.serializers import UserSerializer, UserExchangeHistorySerializer
+from users.serializers import UserSerializer, UserExchangeHistorySerializer, UserSessionSerializer
 
 
 class UserView(generics.RetrieveUpdateAPIView):
@@ -50,8 +51,25 @@ class UserExchangeView(generics.CreateAPIView):
         return super(UserExchangeView, self).create(request, *args, **kwargs)
 
 
-class HomeView(TemplateView):
+class UserSessionView(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserSessionSerializer
+
+    def create(self, request, *args, **kwargs):
+        if type(request.data) is QueryDict:
+            request.data._mutable = True
+        request.data['user'] = request.user
+        # desired_exchange = int(request.data['exchange'])
+        # request.data['time'] = datetime.datetime.now()
+        usr = UserProfile.objects.get(pk=request.user)
+        usr.user.last_login = datetime.datetime.now()
+        # usr.save(update_fields=['last_login'])
+        usr.save()
+        return super(UserSessionView, self).create(request, *args, **kwargs)
+
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "home.html"
+    login_url = "/login/"
 
 
 class ExchangeView(View):
@@ -65,3 +83,10 @@ class ExchangeView(View):
     def post(self, request, *args, **kwargs):
         view = UserExchangeView.as_view()
         return view(request, *args, **kwargs)
+
+class ContactView(TemplateView):
+    template_name = "contact.html"
+
+
+class AboutView(TemplateView):
+    template_name = "about.html"

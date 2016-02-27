@@ -35,6 +35,8 @@ class QuestionInline(NestedStackedInline):
 
 
 class PollForm(forms.ModelForm):
+    send_notification = forms.BooleanField(label="Отправить уведомления", required=False)
+
     def save(self, commit=True):
         self.instance.save()
         user_group = self.instance.user_group
@@ -42,19 +44,26 @@ class PollForm(forms.ModelForm):
             users = user_group.get_filtered_user_queryset()
         else:
             users = UserProfile.objects.all()
+        # new_users_ids = []
         for user in users:
             try:
                 UsersPoll.objects.get(poll=self.instance, user=user)
             except ObjectDoesNotExist:
                 userspoll = UsersPoll(poll=self.instance,
                                       user=user,
-                                      date_assigned=datetime.datetime.now(),
-                                      date_passed=datetime.datetime.now(),
+                                      date_assigned=timezone.now(),
+                                      date_passed=timezone.now(),
                                       passed=False)
                 userspoll.save()
-                print(userspoll)
-        devices = GCMDevice.objects.filter(user__pk__in=users.values_list('pk'))
-        devices.send_message("Новый опрос {0}".format(self.instance.name))
+                # new_users_ids.append(user.user.id)
+        if self.fields['send_notification']:
+            userspolls = UsersPoll.objects.filter(poll=self.instance, user__pk__in=users.values_list('pk'), notification_sent=False)
+            new_users = users.filter(pk__in=userspolls.values_list('user__pk'))
+            android_devices = GCMDevice.objects.filter(user__pk__in=new_users.values_list('pk'))
+            ios_devices = APNSDevice.objects.filter(user__pk__in=new_users.values_list('pk'))
+            android_devices.send_message("Новый опрос: {0}".format(self.instance.name))
+            ios_devices.send_message("Новый опрос: {0}".format(self.instance.name))
+            userspolls.update(notification_sent=True)
         return super(PollForm, self).save(commit=commit)
 
     class Meta:
@@ -72,7 +81,7 @@ class PollAdmin(NestedModelAdmin):
     actions = ['export_to_xls_poll']
 
     fieldsets = [
-        (None, {'fields': ['name', 'score', 'poll_type', 'user_group', 'medicine', 'additional']}),
+        (None, {'fields': ['name', 'score', 'poll_type', 'user_group', 'medicine', 'additional', 'send_notification']}),
         # ('Пользователи', {'fields': ['gender', 'age_from', 'age_to',]}),
 
     ]
@@ -118,12 +127,16 @@ class UsersPollAdmin(admin.ModelAdmin):
     actions = ['unpass_polls']
 
     def unpass_polls(self, request, queryset):
+        for el in queryset:
+            if el.passed:
+                UserAnswer.objects.filter(user=el.user, question__poll=el.poll).delete()
+            # pass
         rows_updated = queryset.update(passed=False)
         if rows_updated == 1:
             message_bit = "1 опрос"
         else:
             message_bit = "%s опросов" % rows_updated
-        self.message_user(request, "%s отмечены как непройденные." % message_bit)
+        self.message_user(request, "%s отмечены как непройденные, ответы пользователей удалены." % message_bit)
 
     unpass_polls.short_description = 'Отметить опросы как непройденные'
 

@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h4>На вашем счету <p id="score">{{ score }}</p> баллов</h4>
+<h2>На вашем счету <span id="score">{{ score }}</span> баллов.</h2>
 <form action="" method="post" id="exchange-form">
     {% csrf_token %}
-    <input type="text" name="exchange" id="exchange-sum"> Сколько вы хотите обменять?
-    <button type="submit" name="submit-exchange" id="exchange-button">Обменять</button>
+    <h3>Сколько баллов вы хотите обменять?</h3><br>
+    <label for="exchange-sum"></label><input type="text" name="exchange" id="exchange-sum">
+    <button class="btn btn-md btn-success" type="submit" name="submit-exchange" id="exchange-button">Обменять</button>
     {% endblock content %}
 </form>
 

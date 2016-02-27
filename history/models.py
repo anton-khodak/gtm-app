@@ -1,13 +1,12 @@
-import datetime
-
 from django.db import models
+from django.utils import timezone
 from users.models import UserProfile, UserFilter
 
 
 class PollHistory(models.Model):
     name = models.CharField('Краткое название', max_length=40)
     text = models.TextField('Краткое содержание', max_length=2300)
-    date_assigned = models.DateTimeField('Дата создания', default=datetime.datetime.now())
+    date_assigned = models.DateTimeField('Дата создания', default=timezone.now)
     users = models.ManyToManyField(UserProfile, through='UserHistory')
     user_group = models.ForeignKey(UserFilter, verbose_name='Какой группе пользователей отправить текст', default=None,
                                    null=True, blank=True)

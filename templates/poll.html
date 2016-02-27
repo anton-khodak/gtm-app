@@ -1,37 +1,60 @@
-{% extends 'base.html' %}
-{% block content %}
-    {% block title %}
-{{ title }}
+{% extends "base.html" %}
+{% block title %}
+    {{ title }}
 {% endblock title %}
-    {{ text }}
-    {{ question }}
-    {% if question %}
-        <br>
-        <form action="" method="post">
-        {% csrf_token %}
-{#            <input type="hidden" name="question" value={{ question.id }}/ >#}
-        {% for answer in answers %}
-            <div class="radio-choice"><input type="radio" name="choice" value={{ answer.id }}>{{ answer.answer_text }}
-                <br></div>
-            {% if 'Другое' in answer.answer_text or 'Ответ пользователя' in answer.answer_text or 'другое' in answer.answer_text%}
-                <div class="ui-widget">
-                    <label for="user-answer"></label>
-                    <input id="user-answer" name="user-answer">
-                </div>
-{#                {{ form }}#}
-{#                <input type="text" name="user-answer">#}
-            {% endif %}
-        {% endfor %}
-        <button type="submit" name="answer">{{ button }}</button>
-        </form>
-    {% else %}
+{% block content %}
+    <div class="poll-text">
+        {{ text }}
+        {{ question }}
+        {% if question %}
+            <br>
+            <form action="" method="post" class="question-form">
+                {% csrf_token %}
+                {#            <input type="hidden" name="question" value={{ question.id }}/ >#}
+                {% for answer in answers %}
+                    <div class="radio-choice"><input type="radio" name="choice"
+                                                     value={{ answer.id }}>{{ answer.answer_text }}
+                        <br></div>
+                    {% if 'Другое' in answer.answer_text or 'Ответ пользователя' in answer.answer_text or 'другое' in answer.answer_text %}
+                        <div class="ui-widget">
+                            <label for="user-answer"></label>
+                            <input id="user-answer" name="user-answer">
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" name="answer" id="answer-button">{{ button }}</button>
+            </form>
+        {% else %}
+            {% if button_name != "main-menu" %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-default proceed" name={{ button_name }} /
+                            id={{ button_name }}>{{ button }}</button>
+                </form>
+            {% else %}
 
-        <form action="" method="post">
-        {% csrf_token %}
-            <button name="instruction">Посмотреть инструкцию</button>
-            <button name={{ button_name }} >{{ button }}</button>
-        </form>
-    {% endif %}
+                 {% if instruction %}
+                     <form action="" method="post">
+                                         {% csrf_token %}
+                        <button class="btn btn-default proceed final-buttons" name="instruction"
+                                id="instruction">Инструкция
+                        </button>
+                     </form>
+                    {% endif %}
+                    {% if medicine %}
+                            <a href={{ link }} / target="_blank"  class="non-underline">
+                        <button class="btn btn-default proceed final-buttons non-underline" name="medicine"
+                                id="search-medicine">Поиск препарата
+                        </button></a>
+                    {% endif %}
+                <form action="/home/" method="get">
+                    <button class="btn btn-default proceed final-buttons" name={{ button_name }} /
+                            id={{ button_name }}>{{ button }} </button>
+                </form>
+            {% endif %}
+
+            </div>
+        {% endif %}
 
 
 {% endblock content %}

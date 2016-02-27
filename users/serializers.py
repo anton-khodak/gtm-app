@@ -24,5 +24,12 @@ class UserExchangeHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserExchangeHistory
-        fields = ['user', 'username', 'score', 'exchange', 'date', 'id', 'day']
+        fields = ['user', 'username', 'score', 'exchange', 'date', 'id']
 
+
+class UserSessionSerializer(serializers.ModelSerializer):
+    username = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = UserSession
+        fields = ['user', 'username', 'duration', 'time']

@@ -1,23 +1,156 @@
-body{
+body {
     background: none;
 }
 
+.content-text{
+    font-size: large;
+}
 
-.main-block{
-    border-radius: 5px;
-    border: 3px solid #337ab7;
-    width: 500px;
-    margin-top: 6%;
+.poll-text{
+    font-size: 2rem;
+    /*text-align: justify;*/
+}
+
+
+/*main menu*/
+.logo-text {
+    font-size: 42px;
+}
+
+.non-underline:hover{
+    text-decoration: none !important;
+}
+
+.menu {
+    padding: 0 0 0 35px
+}
+
+.rounded {
+    counter-reset: li;
+    list-style: none;
+    font: 14px "Trebuchet MS", "Lucida Sans";
+    padding: 0;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+}
+
+.rounded a {
+    position: relative;
+    display: block;
+    padding: .4em .4em .4em 2em;
+    margin: .5em 0;
+    background: #DAD2CA;
+    color: #444;
+    text-decoration: none;
+    border-radius: .3em;
+    transition: all .3s ease-out;
+}
+
+.rounded a:hover {
+    background: #E9E4E0;
+}
+
+.rounded a:before {
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;
+    left: -1.3em;
+    top: 50%;
+    margin-top: -1.3em;
+    background: #87ceeb;
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    border: .3em solid white;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 2em;
+    transition: all .3s ease-out;
+    box-sizing: content-box !important;
+}
+
+/* lists */
+.border {
+    list-style: none;
     padding: 0;
 }
 
-.menu-item{
-    /*margin: 10px 45% ;*/
-    border-bottom: 3px solid #337ab7;
-    text-align: center;
-    padding: 10px;
+.border li {
+    font-family: "Trebuchet MS", "Lucida Sans";
+    padding: 7px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 10px solid #87ceeb;
+    box-shadow: 2px -2px 5px 0 rgba(0, 0, 0, .1),
+    -2px -2px 5px 0 rgba(0, 0, 0, .1),
+    2px 2px 5px 0 rgba(0, 0, 0, .1),
+    -2px 2px 5px 0 rgba(0, 0, 0, .1);
+    font-size: 20px;
+    letter-spacing: 2px;
+    transition: 0.3s all linear;
 }
 
-.menu-item:last-child{
-    border-bottom: none;
+#history-search {
+    padding: 6px;
+    margin-bottom: 20px;
+    border: 2px solid lightgray;
+    width: 50%;
+}
+
+
+/* Poll */
+
+.proceed{
+    /*margin-top: 17px;*/
+    font-size: 17px;
+    margin: 17px auto;
+    display: block;
+}
+
+#proceed-question{
+    padding: 3px 33px;
+    font-size: 22px;
+    margin: 27px auto 17px;
+}
+
+.radio-choice{
+    margin: 10px;
+}
+
+input[type="radio"]{
+    margin-right: 8px;
+}
+
+.question-form{
+    margin-top: 12px;
+}
+
+#user-answer{
+    margin-bottom: 14px;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+/* Exchange */
+
+#exchange-sum {
+    height: 34px;
+    border-radius: 8px;
+    width: 62px;
+    font-size: 20px;
+    text-align: center;
+}
+
+#exchange-button {
+    margin-left: 9px;
+    margin-bottom: 7px;
+    height: 33px;
+    width: 120px;
+}
+
+.final-buttons{
+    width:240px;
 }

@@ -58,6 +58,9 @@ COLUMN_NAMES_TRANSLATE_DICT = {
     'house': 'Дом',
     'flat': 'Квартира',
     'index': 'Почтовый индекс',
+    'user__last_login': 'Последний вход',
+    'userlogins': 'Всего входов в приложение',
+    'usertime': 'Общее время в приложении',
     # Polls
     'question__poll__id': 'ID опроса',
     'question__poll__name': 'Название опроса',

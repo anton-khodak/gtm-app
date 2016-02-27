@@ -60,7 +60,7 @@ class UserPollPassedView(generics.UpdateAPIView):
     def update(self, request, *args, **kwargs):
         request = self.initialize_request(request)
         self.data = request.data.copy()
-        self.data['date_passed'] = datetime.datetime.now()
+        self.data['date_passed'] = timezone.now()
         self.data['passed'] = True
         print(self.data['passed'])
         user = UserProfile.objects.get(user=self.request.user)
@@ -122,16 +122,26 @@ class PollView(View):
                         pass
                     try:
                         instruction = users_poll.data['poll']['medicine']['instruction']
-                        medicine = users_poll.data['poll']['medicine']['name']
                     except TypeError:
                         instruction = None
-                        medicine = None
                         pass
+                    try:
+                        medicine = users_poll.data['poll']['medicine']['name']
+                        city = UserProfile.objects.get(pk=user).city.name
+                        link = "http://google.com/search?q=" + medicine + "+" + str(city).replace(" ", "+") + "+купить"
+                    except TypeError:
+                        medicine = city = link = None
+                        pass
+                    users_poll_obj.passed = True
+                    users_poll_obj.date_passed = timezone.now()
+                    users_poll_obj.save()
 
                     context = {'text': final,
                                'button': 'Вернуться в главное меню',
                                'instruction': instruction,
                                'medicine': medicine,
+                               'city': city,
+                               'link': link,
                                'button_name': 'main-menu'}
                 else:
                     additional = users_poll.data['poll']['additional']
@@ -183,10 +193,16 @@ class PollView(View):
             return HttpResponseRedirect('/polls/' + poll_id + '/text/' + question_id + '/')
         elif 'proceed-question' in post:
             return HttpResponseRedirect('/polls/' + poll_id + '/question/' + question_id + '/')
+        elif 'instruction' in post:
+            try:
+                instruction = users_poll.data['poll']['medicine']['instruction']
+                medicine = users_poll.data['poll']['medicine']['name']
+            except TypeError:
+                instruction = None
+                medicine = None
+            context = {'name': medicine, 'text': instruction}
+            return render(request, "history.html", context)
         elif 'main-menu' in post:
-            users_poll_obj.passed = True
-            users_poll_obj.date_passed = datetime.datetime.now()
-            users_poll_obj.save()
             return HttpResponseRedirect('/home/')
 
     # @staticmethod

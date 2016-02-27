@@ -2,6 +2,7 @@ import django
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.utils import timezone
 from constants.constants import *
 from constants.models import *
 from multiselectfield import MultiSelectField
@@ -20,8 +21,10 @@ class UserProfile(models.Model):
                                    max_length=15,
                                    choices=CURING_FORM_CHOICES_USER_PROFILE,
                                    default=EMPTY, )
+    # curing_form = models.ForeignKey(CuringForm, verbose_name='Форма лечения', null=True)
     position = models.ForeignKey(Position, verbose_name='Должность', default=EMPTY, related_name='+', )
     category = models.CharField('Категория', choices=CATEGORY_CHOICES_USER_PROFILE, default=EMPTY, max_length=15)
+    # category = models.ForeignKey(Category, verbose_name='Категория', null=True)
     speciality = models.ForeignKey(Speciality, verbose_name='Специальность', default=EMPTY)
     area = models.ForeignKey(Area, verbose_name='Область', default=EMPTY)
     city = models.ForeignKey(City, verbose_name='Город', default=EMPTY)
@@ -63,8 +66,10 @@ class UserFilter(models.Model):
                                    max_length=34,
                                    choices=CURING_FORM_CHOICES,
                                    blank=True)
+    # curing_form = models.ManyToManyField(CuringForm, verbose_name='Форма лечения', default=EMPTY, blank=True)
     position = models.ManyToManyField(Position, verbose_name='Должность', default=EMPTY, related_name='+', blank=True)
     category = MultiSelectField('Категория', choices=CATEGORY_CHOICES, default=EMPTY, max_length=34, blank=True)
+    # category = models.ManyToManyField(Category, verbose_name='Специальность', default=EMPTY, blank=True)
     speciality = models.ManyToManyField(Speciality, verbose_name='Специальность', default=EMPTY, blank=True)
     area = models.ManyToManyField(Area, verbose_name='Область', default=EMPTY, blank=True)
     city = models.ManyToManyField(City, verbose_name='Город', default=EMPTY, blank=True)
@@ -97,6 +102,7 @@ class UserFilter(models.Model):
                     q_objects |= Q(**{field: obj})
                 q = q.filter(q_objects)
 
+        # many_to_many_fields = ['curing_form', 'category', 'work', 'position', 'speciality', 'area', 'city']
         many_to_many_fields = ['work', 'position', 'speciality', 'area', 'city']
         for field in many_to_many_fields:
             if getattr(self, field):
@@ -127,9 +133,16 @@ class UserFilter(models.Model):
 class UserExchangeHistory(models.Model):
     user = models.ForeignKey(UserProfile)
     exchange = models.IntegerField('Сколько пользователь захотел обменять баллов', default=0)
-    date = models.DateTimeField('Дата обмена', default=datetime.datetime.now())
-    # day = models.DateField('Дата обмена', default=django.utils.timezone.now())
-    day = models.DateField('Дата обмена', default=datetime.date.today())
+    date = models.DateTimeField('Дата обмена', default=timezone.now)
 
     def __str__(self):
         return str(self.user) + ' обменял ' + str(self.exchange) + ' баллов, ' + str(self.date)
+
+
+class UserSession(models.Model):
+    user = models.ForeignKey(UserProfile)
+    duration = models.DurationField(verbose_name='Длительность сеанса')
+    time = models.DateTimeField(verbose_name='Время сеанса', default=timezone.now)
+
+    def __str__(self):
+        return str(self.user.user.username) + ' / ' + str(self.time) + ' / ' + str(self.duration)

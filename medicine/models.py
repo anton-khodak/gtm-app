@@ -1,7 +1,5 @@
-import datetime
-
 from django.db import models
-
+from django.utils import timezone
 from users.models import UserProfile
 from constants.constants import *
 from constants.models import *
@@ -20,7 +18,7 @@ class Medicine(models.Model):
 
 class SearchHistory(models.Model):
     name = models.CharField('Название лекарства', max_length=40)
-    date = models.DateTimeField('Дата создания', default=datetime.datetime.now())
+    date = models.DateTimeField('Дата создания', default=timezone.now)
     user = models.ForeignKey(UserProfile)
 
     def __str__(self):

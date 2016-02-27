@@ -44,3 +44,15 @@ class Department(models.Model):
     def __str__(self):
         return self.name
 
+#
+# class Category(models.Model):
+#     name = models.CharField('Название категории', max_length=30)
+#
+#     def __str__(self):
+#         return self.name
+#
+# class CuringForm(models.Model):
+#     name = models.CharField('Название формы лечения', max_length=30)
+#
+#     def __str__(self):
+#         return self.name

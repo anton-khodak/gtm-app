@@ -1,9 +1,9 @@
 from django.db import models
+from django.utils import timezone
 from constants.constants import *
 from constants.models import *
 from medicine.models import Medicine
 from users.models import UserProfile, UserFilter
-import datetime
 
 
 class PollAdditional(models.Model):
@@ -31,9 +31,10 @@ class Poll(models.Model):
 class UsersPoll(models.Model):
     user = models.ForeignKey(UserProfile, verbose_name='Пользователь')
     poll = models.ForeignKey(Poll, related_name='smth', verbose_name='Опрос')
-    date_assigned = models.DateTimeField('Дата получения', default=datetime.datetime.now)
-    date_passed = models.DateTimeField('Дата прохождения', default=datetime.datetime.now)
+    date_assigned = models.DateTimeField('Дата получения', default=timezone.now)
+    date_passed = models.DateTimeField('Дата прохождения', default=timezone.now)
     passed = models.BooleanField('Пройдено', default=False)
+    notification_sent = models.BooleanField('Оповещение отправлено', default=False)
 
     class Meta:
         unique_together = ['user', 'poll']
