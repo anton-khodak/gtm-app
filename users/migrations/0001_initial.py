@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                 ('score', models.IntegerField(default=0, verbose_name='Баллы')),
                 ('area', models.ForeignKey(default=' ', on_delete=django.db.models.deletion.CASCADE, to='constants.Area', verbose_name='Область')),
                 ('city', models.ForeignKey(default=' ', on_delete=django.db.models.deletion.CASCADE, to='constants.City', verbose_name='Город')),
-                ('position', models.ForeignKey(default=' ', on_delete=django.db.models.deletion.CASCADE, related_name='+', to='constants.Position', verbose_name='Должность')),
+                # ('position', models.ForeignKey(default=' ', on_delete=django.db.models.deletion.CASCADE, related_name='+', to='constants.Position', verbose_name='Должность')),
                 ('speciality', models.ForeignKey(default=' ', on_delete=django.db.models.deletion.CASCADE, to='constants.Speciality', verbose_name='Специальность')),
                 ('work', models.ForeignKey(default=' ', on_delete=django.db.models.deletion.CASCADE, to='constants.Hospital', verbose_name='Место работы')),
             ],

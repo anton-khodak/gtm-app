@@ -1,9 +1,10 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
+
 from polls.views import *
 
 urlpatterns = [
-    url(r'^api/polls/$', UsersPollList.as_view()),
+    # url(r'^api/polls/$', UsersPollList.as_view()),
     url(r'^api/polls/all/$', UsersPollFullList.as_view()),
     url(r'^api/polls/passed/$', UserPollPassedView.as_view()),
     url(r'^api/answers/$', UserAnswerList.as_view()),

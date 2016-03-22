@@ -15,3 +15,9 @@ class UserPollHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserHistory
         fields = ('user', 'poll',)
+
+class NewsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = News
+        fields = ('id', 'text', 'date')

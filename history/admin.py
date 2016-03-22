@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from users.admin import admin_site
 from history.models import *
+from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
 
 
 class HistoryForm(forms.ModelForm):
@@ -33,6 +34,13 @@ class HistoryAdmin(admin.ModelAdmin):
     fields = ['name', 'user_group', 'text']
     form = HistoryForm
 
+class HistoryTranslatedAdmin(HistoryAdmin, TranslationAdmin):
+    pass
 
-admin_site.register(PollHistory, HistoryAdmin)
+class NewsAdmin(TranslationAdmin):
+    list_display = ('text', 'date')
+
+
+admin_site.register(PollHistory, HistoryTranslatedAdmin)
 admin_site.register(UserHistory)
+admin_site.register(News, NewsAdmin)

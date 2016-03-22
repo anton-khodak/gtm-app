@@ -96,7 +96,8 @@ class UserAnswer(models.Model):
         return str(self.user) + ' / ' + str(self.question) + ' / ' + str(self.answer)
 
 
-class UserPollFilter(UserFilter):
+class UserPollFilter(models.Model):
+    group = models.ForeignKey(UserFilter, verbose_name='Группа пользователей', null=True, default='')
     date_from = models.DateField('Дата прохождения от', null=True, blank=True)
     date_to = models.DateField('Дата прохождения до', null=True, blank=True)
     polls = models.ManyToManyField(Poll, verbose_name='Конкретные опросы', null=True, blank=True)
@@ -104,7 +105,7 @@ class UserPollFilter(UserFilter):
     order = models.CharField('Групировка', choices=ORDER_CHOICES, default=ORDER_CHOICES[0][0], max_length=25)
 
     def get_filtered_user_queryset(self):
-        qs = super().get_filtered_user_queryset()
+        qs = self.group.get_filtered_user_queryset()
         if qs:
             qs |= UserProfile.objects.filter(user__in=self.users.all())
         elif self.users:

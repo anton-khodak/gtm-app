@@ -1,11 +1,11 @@
 from django.db.models import Q
 from django.shortcuts import render
-from django.views.generic.base import View
+from django.views.generic.base import View, TemplateView
 from django.views.generic.list import ListView
 from rest_framework import generics
 from rest_framework import permissions
-from history.models import UserHistory
-from history.serializers import UserPollHistorySerializer
+from history.models import UserHistory, News
+from history.serializers import UserPollHistorySerializer, NewsSerializer
 
 
 class UserPollHistoryList(generics.ListAPIView):
@@ -47,3 +47,21 @@ class HistorySearch(ListView):
         q = self.q
         history = UserHistory.objects.filter(user__user=self.user)
         return history.filter(Q(poll__name__icontains=q) | Q(poll__text__contains=q)).order_by('-poll__date_assigned')
+
+
+class NewsList(generics.ListAPIView):
+    serializer_class = NewsSerializer
+    queryset = News.objects.all().order_by('-date')
+
+
+class NewsView(ListView):
+    template_name = "news.html"
+    queryset = News.objects.all()
+
+
+class CompanyNewsView(NewsView):
+    template_name = "company_news.html"
+
+
+class MedicineNewsView(TemplateView):
+    template_name = "medicine_news.html"

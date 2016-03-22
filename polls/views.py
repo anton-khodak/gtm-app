@@ -1,19 +1,24 @@
-import json
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import F
-from django.http.request import QueryDict
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.views.generic import View
 from django.views.generic.list import ListView
 from rest_framework import generics
 from rest_framework import permissions
+
 from polls.serializers import *
 
 
 class UsersPollList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UsersPollSerializer
+
+    def get(self, request, *args, **kwargs):
+        # lang = request.GET.get('lang', 'ru')
+        # request.session[LANGUAGE_SESSION_KEY] = lang
+        return super(UsersPollList, self).get(self, request, *args, **kwargs)
+
 
     def get_queryset(self):
         return UsersPoll.objects.filter(user__user=self.request.user) \
@@ -163,6 +168,8 @@ class PollView(View):
             else:
                 return HttpResponseRedirect('intro/')
         context['title'] = users_poll_obj.poll.name
+        if context.get('text', ''):
+            context['text'] = context['text'].replace('{{', '<img width="100%" src="').replace('}}', '">')
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):

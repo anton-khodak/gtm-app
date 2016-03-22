@@ -83,6 +83,11 @@ COLUMN_NAMES_TRANSLATE_DICT = {
     'answer__id': 'ID ответа',
     'answer__answer_text': 'Текст ответа',
     'other_answer': 'Ответ пользователя',
+    # Search History
+    'name': 'Название лекарства',
+    # User Session
+    'duration': 'Длительность сеанса',
+    'time': 'Время сеанса'
 }
 
 GENDER_CHOICES_USER_PROFILE = GENDER_CHOICES.copy()

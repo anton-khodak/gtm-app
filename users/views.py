@@ -1,13 +1,15 @@
 import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.http.request import QueryDict
 from django.shortcuts import render
+from django.views.generic import ListView
 from django.views.generic.base import View, TemplateView
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework.response import Response
+
 from users.models import UserProfile
 from users.serializers import UserSerializer, UserExchangeHistorySerializer, UserSessionSerializer
 
@@ -67,6 +69,7 @@ class UserSessionView(generics.CreateAPIView):
         usr.save()
         return super(UserSessionView, self).create(request, *args, **kwargs)
 
+
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "home.html"
     login_url = "/login/"
@@ -84,9 +87,36 @@ class ExchangeView(View):
         view = UserExchangeView.as_view()
         return view(request, *args, **kwargs)
 
+
 class ContactView(TemplateView):
     template_name = "contact.html"
 
 
 class AboutView(TemplateView):
     template_name = "about.html"
+
+
+class AgreementView(TemplateView):
+    template_name = "agreement.html"
+
+
+class MainPageView(ListView):
+    template_name = "company.html"
+
+    def get_queryset(self):
+        from history.models import News
+        return News.objects.all()
+
+
+class GTMView(View):
+    template_name = "gtm.html"
+
+    def get(self, request):
+        user = UserProfile.objects.get(user=request.user)
+        from history.models import News
+        context = {'score': user.score, 'news': News.objects.all().order_by('-id')}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        view = UserExchangeView.as_view()
+        return view(request, *args, **kwargs)

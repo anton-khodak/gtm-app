@@ -109,3 +109,8 @@ $(document).ready(function () {
         }, 1000);
     }
 });
+
+//$(document).ready(function () {
+    $('table').attr('width', '100%');
+//});
+

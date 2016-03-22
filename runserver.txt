@@ -1,1 +1,0 @@
-python D:\Programming\Arthur\manage.py runserver 7000

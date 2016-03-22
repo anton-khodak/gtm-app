@@ -37,22 +37,22 @@ class Position(models.Model):
         return self.name
 
 
-
 class Department(models.Model):
     name = models.CharField('Название района', max_length=20)
 
     def __str__(self):
         return self.name
 
-#
-# class Category(models.Model):
-#     name = models.CharField('Название категории', max_length=30)
-#
-#     def __str__(self):
-#         return self.name
-#
-# class CuringForm(models.Model):
-#     name = models.CharField('Название формы лечения', max_length=30)
-#
-#     def __str__(self):
-#         return self.name
+
+class Category(models.Model):
+    name = models.CharField('Название категории', max_length=30)
+
+    def __str__(self):
+        return self.name
+
+
+class CuringForm(models.Model):
+    name = models.CharField('Название формы лечения', max_length=30)
+
+    def __str__(self):
+        return self.name

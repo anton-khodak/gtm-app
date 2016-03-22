@@ -154,3 +154,11 @@ input[type="radio"]{
 .final-buttons{
     width:240px;
 }
+
+.news-block{
+    margin-bottom: 30px;
+}
+
+.news-block:first-child{
+    margin-top: 30px;
+}

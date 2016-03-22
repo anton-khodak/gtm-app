@@ -1,12 +1,13 @@
 import datetime as dt
-from push_notifications.models import APNSDevice, GCMDevice
 
 from django import forms
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import QuerySet, Count
+from django.db.models import Count
 from django_pandas.io import read_frame
+from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
 from nested_inline.admin import NestedStackedInline, NestedModelAdmin
+from push_notifications.models import APNSDevice, GCMDevice
 
 from constants.excel import export_to_xls
 from constants.helper_functions import translate_column_names, translit
@@ -14,11 +15,26 @@ from polls.models import *
 from users.admin import admin_site
 
 
+class AnswerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        # populates "next_question" queryset only with questions related to the poll
+        super(AnswerForm, self).__init__(*args, **kwargs)
+        try:
+            self.fields['next_question'].queryset = Question.objects.filter(poll=self.instance.question.poll)
+        except AttributeError:
+            pass
+
+    class Meta:
+        fields = '__all__'
+        model = Answer
+
+
 class AnswerInline(NestedStackedInline):
     model = Answer
     fk_name = 'level'
     list_display = ['answer_text', 'next_question']
     fields = ['answer_text', 'next_question']
+    form = AnswerForm
 
 
 class AnswerAdmin(admin.ModelAdmin):
@@ -26,9 +42,13 @@ class AnswerAdmin(admin.ModelAdmin):
     fields = ['question', 'answer_text', 'next_question']
 
 
+class AnswerTranslatedAdmin(AnswerInline, TranslationStackedInline):
+    pass
+
+
 class QuestionInline(NestedStackedInline):
     model = Question
-    inlines = [AnswerInline]
+    inlines = [AnswerTranslatedAdmin]
     fields = ['text', 'question_text']
     fk_name = 'level'
     list_display = ('question_text', 'poll')
@@ -46,6 +66,7 @@ class PollForm(forms.ModelForm):
             users = UserProfile.objects.all()
         # new_users_ids = []
         for user in users:
+            # Poll.assign_poll_to(user)
             try:
                 UsersPoll.objects.get(poll=self.instance, user=user)
             except ObjectDoesNotExist:
@@ -56,8 +77,9 @@ class PollForm(forms.ModelForm):
                                       passed=False)
                 userspoll.save()
                 # new_users_ids.append(user.user.id)
-        if self.fields['send_notification']:
-            userspolls = UsersPoll.objects.filter(poll=self.instance, user__pk__in=users.values_list('pk'), notification_sent=False)
+        if self.data.get('send_notification', ''):
+            userspolls = UsersPoll.objects.filter(poll=self.instance, user__pk__in=users.values_list('pk'),
+                                                  notification_sent=False)
             new_users = users.filter(pk__in=userspolls.values_list('user__pk'))
             android_devices = GCMDevice.objects.filter(user__pk__in=new_users.values_list('pk'))
             ios_devices = APNSDevice.objects.filter(user__pk__in=new_users.values_list('pk'))
@@ -71,9 +93,17 @@ class PollForm(forms.ModelForm):
         model = Poll
 
 
+class QuestionTranslatedNestedAdmin(QuestionInline, TranslationStackedInline):
+    pass
+
+
+class TranslatedQuestionAdmin(TranslationAdmin):
+    pass
+
+
 class PollAdmin(NestedModelAdmin):
     model = Poll
-    inlines = [QuestionInline]
+    inlines = [QuestionTranslatedNestedAdmin]
     form = PollForm
     fk_name = 'level'
     list_filter = ['users']
@@ -87,6 +117,11 @@ class PollAdmin(NestedModelAdmin):
     ]
 
     def export_to_xls_poll(self, request, queryset):
+        PollAdmin.poll_to_xls(request, queryset)
+    export_to_xls_poll.short_description = 'Выгрузить опросы в xls'
+
+    @staticmethod
+    def poll_to_xls(request, queryset):
         qs = None
         for poll in queryset:
             if qs:
@@ -110,16 +145,18 @@ class PollAdmin(NestedModelAdmin):
             answers = df.loc[i, 'useranswers']
             total_counts = sum(df[df['question__id'] == question]['useranswers'])
             if total_counts:
-                percent = answers/total_counts*100
+                percent = answers / total_counts * 100
             else:
                 percent = 0
-            df.ix[i, 'percent'] = str(percent)+'%'
+            df.ix[i, 'percent'] = str(percent) + '%'
         i = dt.datetime.now()
         path = 'oprosy' + "_%s_%s_%s" % (i.day, i.month, i.year) + '.xls'
         df = translate_column_names(df)
         return export_to_xls(df, path)
 
-    export_to_xls_poll.short_description = 'Выгрузить опросы в xls'
+
+class TranslatedPollAdmin(PollAdmin, TranslationAdmin):
+    pass
 
 
 class UsersPollAdmin(admin.ModelAdmin):
@@ -130,7 +167,7 @@ class UsersPollAdmin(admin.ModelAdmin):
         for el in queryset:
             if el.passed:
                 UserAnswer.objects.filter(user=el.user, question__poll=el.poll).delete()
-            # pass
+                # pass
         rows_updated = queryset.update(passed=False)
         if rows_updated == 1:
             message_bit = "1 опрос"
@@ -180,9 +217,9 @@ class UserPollFilterAdmin(admin.ModelAdmin):
     export_to_xls_user_poll.short_description = 'Выгрузить опросы пользователей в xls'
 
 
-admin_site.register(Question)
+admin_site.register(Question, TranslatedQuestionAdmin)
 admin_site.register(Answer, AnswerAdmin)
-admin_site.register(Poll, PollAdmin)
+admin_site.register(Poll, TranslatedPollAdmin)
 admin_site.register(UsersPoll, UsersPollAdmin)
 admin_site.register(UserAnswer, UserAnswerAdmin)
 admin_site.register(PollAdditional)

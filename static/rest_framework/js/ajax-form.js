@@ -9,7 +9,7 @@ function doAjaxSubmit(e) {
     var form = $(this);
     var btn = $(this.clk);
     var method = btn.data('method') || form.data('method') || form.attr('method') || 'GET';
-    method = method.toUpperCase()
+    method = method.toUpperCase();
     if (method === 'GET') {
         // GET requests can always use standard form submits.
         return;

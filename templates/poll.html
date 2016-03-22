@@ -4,7 +4,9 @@
 {% endblock title %}
 {% block content %}
     <div class="poll-text">
+    {% autoescape off %}
         {{ text }}
+    {% endautoescape %}
         {{ question }}
         {% if question %}
             <br>

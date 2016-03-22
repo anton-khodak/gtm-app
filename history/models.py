@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.utils import timezone
 from users.models import UserProfile, UserFilter
@@ -22,3 +24,13 @@ class UserHistory(models.Model):
     def __str__(self):
         return str(self.user) + ' / ' + str(self.poll)
 
+
+class News(models.Model):
+    text = models.TextField('Текст новости', max_length=2000)
+    date = models.DateField('Дата создания', default=datetime.date.today)
+
+    class Meta:
+        ordering = ['-date']
+
+    def __str__(self):
+        return self.text[:100]
