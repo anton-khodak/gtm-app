@@ -1,0 +1,28 @@
+{% extends "website_base.html" %}
+{% load staticfiles %}
+
+{% block home_link %} <a href="/"  class="smoothScroll">Начало</a> {% endblock %}
+{% block about_link %} <a href="/#about"  class="smoothScroll">О компании</a> {% endblock %}
+{% block services_link %} <a href="/#services"  class="smoothScroll">Проекты</a> {% endblock %}
+{% block contact_link %} <a href="/#contact"  class="smoothScroll">Контакты</a> {% endblock %}
+
+{% block content %}
+<div class="company-news">
+{% block company_news %}
+    <h2>Новости компании</h2>
+    {% if object_list %}
+        <div class="news">{% for new in object_list %}
+            <div class="news-block content-text">
+                <p style="font-weight: bold">{{ new.date }}</p>
+                {{ new.text }} <br>
+            </div>
+        {% endfor %}</div>
+    {% endif %}
+    </div>
+    {% endblock company_news %}
+
+{% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript" src={% static "rest_framework/js/own.js" %}></script>
+{% endblock scripts %}

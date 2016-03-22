@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %} GTM {% endblock title %}
+
+{#{% block content %}#}
+{#    <h2>О компании</h2>#}
+{#    <div class="content-text" id="company-info">Компания GTM создана в марте 2016-го года.</div>#}
+{#    <hr>#}
+{#    <div id="contact">#}
+{#        <h2>Связаться</h2>#}
+{#        <div class="content-text">#}
+{#            Если у вас возникли трудности или неполадки, свяжитесь с администратором по адресу:#}
+{#            gtm.admi@gmail.com#}
+{#            <hr>#}
+{#        </div>#}
+{#        <h2>Пользовательское соглашение</h2>#}
+{##}
+{#        <div class="content-text">ЕСЛИ ВЫ СКАЧИВАЕТЕ, ЗАГРУЖАЕТЕ, КОПИРУЕТЕ ЛИБО ЛЮБЫМ ИНЫМ ОБРАЗОМ ИСПОЛЬЗУЕТЕ ИГРЫ#}
+{#            WARGAMING ИЛИ ИХ ЧАСТЬ И (ИЛИ) НАЧИНАЕТЕ УЧАСТВОВАТЬ В ИГРОВОМ ПРОЦЕССЕ ДАННЫХ ИГР, ТО ЭТИМ ВЫ#}
+{#            ПОДТВЕРЖДАЕТЕ, ЧТО ПОЛНОСТЬЮ ПРОЧИТАЛИ, ПОНЯЛИ, СОГЛАСНЫ И ПРИНИМАЕТЕ НИЖЕИЗЛОЖЕННОЕ ПОЛЬЗОВАТЕЛЬСКОЕ#}
+{#            СОГЛАШЕНИЕ, ОБЯЗУЕТЕСЬ ЕГО СОБЛЮДАТЬ И НЕСТИ ОТВЕТСТВЕННОСТЬ ЗА ЕГО НАРУШЕНИЕ.#}
+{##}
+{#            УСЛОВИЯ ПОЛЬЗОВАТЕЛЬСКОГО СОГЛАШЕНИЯ И КЛЮЧЕВЫХ ДОКУМЕНТОВ (ПУНКТ 2.1 НИЖЕ) ЯВЛЯЮТСЯ СУЩЕСТВЕННЫМИ И#}
+{#            ОБЯЗАТЕЛЬНЫМИ ДЛЯ ИСПОЛНЕНИЯ.#}
+{##}
+{#            Настоящее пользовательское соглашение («Соглашение») регулирует отношения между компанией Wargaming Group#}
+{#            Limited, зарегистрированной по адресу Agion Omologiton Avenue, 105, Никосия, 1080, Кипр, а также компанией#}
+{#            Wargaming World Limited, зарегистрированной по адресу Agion Omologiton Avenue, 105, Никосия, 1080, Кипр, в#}
+{#            части игр на платформе Microsoft Xbox (далее по тексту «Wargaming») и вами — конечным пользователем одной из#}
+{#            следующих игр: WORLD OF TANKS, WORLD OF WARPLANES, WORLD OF WARSHIPS, WORLD OF TANKS на Xbox 360 и Xbox One,#}
+{#            WORLD OF TANKS GENERALS, WORLD OF TANKS BLITZ («Пользователь»), далее по отдельности именуемые «Сторона», а#}
+{#            совместно — «Стороны».#}
+{#        </div> <hr>#}
+{##}
+{#    <h2>Новости</h2>#}
+{#    {% if news %}#}
+{#        <div class="news">{% for new in news %}#}
+{#            <div class="news-block content-text">#}
+{#                <p style="font-weight: bold">{{ new.date }}</p>#}
+{#                {{ new.text }} <br>#}
+{#            </div>#}
+{#        {% endfor %}</div>#}
+{#    {% endif %}#}
+{#    </div>#}
+{##}
+{#    <hr>#}
+{#    <div id="exchange"><h2>На вашем счету <span id="score">{{ score }}</span> баллов.</h2>#}
+{##}
+{#        <form action="" method="post" id="exchange-form">#}
+{#            {% csrf_token %}#}
+{#            <h3>Сколько баллов вы хотите обменять?</h3><br>#}
+{#            <label for="exchange-sum"></label><input type="text" name="exchange" id="exchange-sum">#}
+{#            <button class="btn btn-md btn-success" type="submit" name="submit-exchange" id="exchange-button">Обменять#}
+{#            </button>#}
+{#    </div>#}
+
+
+    {% block content %}
+    <div class="menu">
+   <ol class="rounded">
+       <li>             <h1><a href="/about/">О компании</a></h1>
+
+       </li>
+       <li>            <h1><a href="/news/">Новости</a></h1>
+</li>
+       <li>            <h1><a href="/contact/">Контакты</a></h1>
+</li>
+{#       <li>            <h1><a href="/exchange/">Обмен баллов</a></h1>#}
+{#</li>#}
+       <li>            <h1><a href="/agreement/">Пользовательское соглашение</a></h1>
+</li>
+       <li>            <h1><a href="/exchange/">Обмен баллов</a></h1>
+</li>
+   </ol>
+    </div>
+
+{% endblock content %}
+
+
+
+
+{#{% endblock content %}#}
