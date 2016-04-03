@@ -1,10 +1,12 @@
 {% extends "polls.html" %}
+{% load i18n %}
     {% block title %}
 
-    История
-
+    {% trans "История" %}
+☺
         {% endblock title %}
 {% block search %}
     <label for="history-search"></label>
-    <input type="text" id="history-search" name="history-search" placeholder="Поиск по истории">
+    <input type="text" id="history-search" name="history-search"
+           placeholder="{% blocktrans %}Поиск по истории{% endblocktrans %}">
 {% endblock search %}

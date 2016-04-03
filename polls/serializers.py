@@ -19,6 +19,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ('id', 'text', 'question_text', 'answers')
+        ordering = ('id',)
 
 
 class AdditionalSerializer(serializers.ModelSerializer):

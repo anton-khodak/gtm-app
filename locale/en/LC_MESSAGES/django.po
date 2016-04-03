@@ -1,0 +1,269 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-03 23:27+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\Arthur\settings.py:119
+msgid "Russian"
+msgstr ""
+
+#: .\Arthur\settings.py:120
+msgid "Ukrainian"
+msgstr ""
+
+#: .\Arthur\settings.py:121
+msgid "English"
+msgstr ""
+
+#: .\polls\views.py:145
+msgid "Вернуться в главное меню"
+msgstr ""
+
+#: .\polls\views.py:156
+msgid "Перейти к анализу"
+msgstr ""
+
+#: .\polls\views.py:223
+msgid "Подтвердить"
+msgstr ""
+
+#: .\templates\about.html:6
+msgid "Компания GTM создана в марте 2016-го года."
+msgstr ""
+
+#: .\templates\agreement.html:4 .\templates\agreement.html.py:7
+#: .\templates\gtm.html:23
+msgid "Пользовательское соглашение"
+msgstr ""
+
+#: .\templates\base.html:51
+msgid "Главная"
+msgstr ""
+
+#: .\templates\base.html:52 .\templates\exchange.html.py:5
+#: .\templates\gtm.html:26
+msgid "Выплата гривен"
+msgstr ""
+
+#: .\templates\base.html:53
+msgid "Связаться"
+msgstr ""
+
+#: .\templates\base.html:71
+msgid "Пользователь"
+msgstr ""
+
+#: .\templates\base.html:71
+msgid "Выйти"
+msgstr ""
+
+#: .\templates\company.html:12
+msgid "Интерактивные коммуникации"
+msgstr "Interactive communications"
+
+#: .\templates\company.html:13
+msgid "в фармацевтике и здравоохранении"
+msgstr "in pharmaceuticals and health care"
+
+#: .\templates\company.html:25 .\templates\company_news.html.py:11
+#: .\templates\gtm.html:11 .\templates\website_base.html.py:51
+msgid "О компании"
+msgstr "About company"
+
+#: .\templates\company.html:29
+msgid "Наша компания"
+msgstr "Our company"
+
+#: .\templates\company.html:30
+msgid ""
+"Целью компании GTM (Go To Marketing) является создание эффективных "
+"интерактивных коммуникаций между специалистами в области фармацевтики и "
+"здравоохранения. Мы создаем необходимые условия, для того, чтобы информация, "
+"получаемая специалистами, была не только достоверной, полезной и "
+"релевантной, но и удобной в получении, использовании и хранении.Оценка "
+"специалистами качества информации, посредством интерактивных коммуникативных "
+"каналов, позволяет создавать продукт, соответствующий ожиданиям медицинского "
+"сообщества"
+msgstr ""
+"The aim of the company GTM (Go To Marketing) is to establish effective "
+"interactive communication between specialists pharmaceuticals and health "
+"care fields.We create the necessary circumstancesт to ensure that the "
+"information receiving by experts,will not be only a reliable, useful and "
+"relevant, but also easy to obtain, use and storage.Evaluation of the quality "
+"of information by specialists, through interactive communication channels, "
+"allows you to create a product that meets expectations of the medical "
+"community."
+
+#: .\templates\company.html:31
+msgid "Наши ценности"
+msgstr "Our values"
+
+#: .\templates\company.html:32
+msgid ""
+"Решения, которые мы предлагаем основаны на прозрачности, честности, "
+"достоверности и уважении к людям. Мы уверенны, что улучшая коммуникаций "
+"между специалистами в фармацевтике и здравоохранении, мы вносим свой вклад в "
+"достижении конечной цели – улучшение и сохранение здоровья каждого "
+"человека.  "
+msgstr ""
+"The solutions we offer are based on transparency, honesty, integrity and "
+"respect for people. We believe that improving communication between "
+"professionals in the pharmaceutical and health care spheres, we contribute "
+"to achieving the ultimate goal- improving and protecting the health of every "
+"person."
+
+#: .\templates\company.html:34
+msgid "Наши сотрудники"
+msgstr "Our employees"
+
+#: .\templates\company.html:35
+msgid ""
+"Мы хотим, чтобы цели и ценности наших сотрудников и компании совпадали. Мы "
+"расцениваем своих сотрудников как партнеров и создаем условия, для "
+"максимальной реализации и достижении целей. Уважение к личности – "
+"основополагающий принцип во взаимоотношениях с нашими сотрудниками."
+msgstr ""
+"The goals and values ​​of our employees and the company have to match. We "
+"treat our employees as partners and create the conditions for maximal "
+"realization and achievement of goals. Respect for every individual is a "
+"fundamental principle in the relationship with our employees."
+
+#: .\templates\company.html:53
+msgid ""
+"Программный комплекс e-MR (electronic – Medical Representative является "
+"оригинальной разработкой компании GTM и призван повысить уровень "
+"коммуникации между специалистами в области фармацевтики и здравоохранения."
+msgstr ""
+"The software package e-MR (electronic - Medical Representative is the "
+"original development of the GTM  company and aims to improve the level of "
+"communication between specialists in the field of pharmaceuticals and health "
+"care."
+
+#: .\templates\company.html:58
+msgid ""
+"проводит презентацию, задает вопросы, анализирует ответы и изменяет "
+"информационные сообщения в зависимости от потребностей специалиста."
+msgstr ""
+"gives a presentation, ask questions, analyze the responses and changes the "
+"information messages, depending on the needs of the specialist."
+
+#: .\templates\company.html:63
+msgid ""
+"готов в удобное время рассказать о новых препаратах, методах лечения, "
+"исследованиях, которые могут представлять интерес для специалиста."
+msgstr ""
+"ready at any time to give the specialists all necessary about new drugs, "
+"treatments, research."
+
+#: .\templates\company.html:68
+msgid ""
+"анализирует ответы и пожелания специалистов здравоохранения, что позволяет "
+"создавать максимально полезные информационно-аналитические блоки."
+msgstr ""
+"analyzes the responses and wishes of professionals in medical sphere, which "
+"allows you to create the most useful information and analytical units."
+
+#: .\templates\company.html:122 .\templates\company_news.html.py:15
+#: .\templates\gtm.html:18 .\templates\website_base.html.py:58
+msgid "Контакты"
+msgstr "Contacts"
+
+#: .\templates\company.html:125
+msgid "проспект Победы 123"
+msgstr "Peremohy avenue 123"
+
+#: .\templates\company.html:126
+msgid "г.Киев, Украина, 03179"
+msgstr "Kyiv, Ukraine, 03179"
+
+#: .\templates\company.html:133
+msgid "МТС"
+msgstr "MTC"
+
+#: .\templates\company.html:134
+msgid "Киевстар"
+msgstr "Kyivstar"
+
+#: .\templates\company_news.html:9 .\templates\website_base.html.py:49
+msgid "Начало"
+msgstr "Start"
+
+#: .\templates\company_news.html:13 .\templates\website_base.html.py:53
+msgid "Проекты"
+msgstr "Projects"
+
+#: .\templates\company_news.html:20 .\templates\website_base.html.py:54
+msgid "Новости компании"
+msgstr "Company news"
+
+#: .\templates\contact.html:6
+msgid ""
+"Если у вас возникли трудности или неполадки, свяжитесь с администратором по "
+"адресу: service@gtm.com.ua"
+msgstr ""
+
+#: .\templates\exchange.html:8
+msgid "На вашем счету"
+msgstr ""
+
+#: .\templates\exchange.html:9
+msgid "гривен."
+msgstr ""
+
+#: .\templates\exchange.html:12
+msgid "Сколько гривен вы хотите получить?"
+msgstr ""
+
+#: .\templates\exchange.html:14
+msgid "Получить"
+msgstr ""
+
+#: .\templates\gtm.html:15 .\templates\news.html.py:5 .\templates\news.html:8
+msgid "Новости"
+msgstr ""
+
+#: .\templates\history.html:4 .\templates\history_list.html.py:5
+#: .\templates\home.html:15
+msgid "История"
+msgstr ""
+
+#: .\templates\history_list.html:11
+msgid "Поиск по истории"
+msgstr ""
+
+#: .\templates\home.html:5
+msgid "Домашняя страница"
+msgstr ""
+
+#: .\templates\home.html:10
+msgid "Медицинская информация"
+msgstr ""
+
+#: .\templates\home.html:13
+msgid "Аналитика"
+msgstr ""
+
+#: .\templates\poll.html:43
+msgid "Инструкция"
+msgstr ""
+
+#: .\templates\poll.html:50
+msgid "Поиск препарата"
+msgstr ""
+
+#: .\templates\website_base.html:55
+msgid "Новости медицины"
+msgstr "Medical news"

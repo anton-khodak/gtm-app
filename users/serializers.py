@@ -8,10 +8,11 @@ class UserSerializer(serializers.ModelSerializer):
     last_name = serializers.ReadOnlyField(source='user.last_name')
     username = serializers.ReadOnlyField(source='user.username')
     city = serializers.ReadOnlyField(source='city.name')
+    patronimyc = serializers.ReadOnlyField(source="patronymic", required=False)
 
     class Meta:
         model = UserProfile
-        fields = ('id', 'username', 'first_name', 'last_name', 'patronimyc', 'gender', 'city', 'score')
+        fields = ('id', 'username', 'first_name', 'last_name', 'patronimyc', 'gender', 'city', 'score', 'user_agreed')
 
     def update(self, instance, validated_data):
         instance = super(UserSerializer, self).update(instance, validated_data)

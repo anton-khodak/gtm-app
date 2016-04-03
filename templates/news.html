@@ -1,9 +1,11 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %} Новости {% endblock title %}
+{% block title %}
+    {% trans "Новости" %} {% endblock title %}
 
 {% block content %}
-    <h2>Новости</h2>
+    <h2>{% trans "Новости" %}</h2>
     {% if object_list %}
         <div class="news">{% for new in object_list %}
             <div class="news-block content-text">

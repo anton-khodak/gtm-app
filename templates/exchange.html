@@ -1,13 +1,17 @@
 {% extends "base.html" %}
-{% block title %} Обмен баллов {% endblock title %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Выплата гривен" %} {% endblock title %}
 
 {% block content %}
-<h2>На вашем счету <span id="score">{{ score }}</span> баллов.</h2>
+<h2>{% trans "На вашем счету" %} <span id="score">{{ score }}</span>
+    {% trans "гривен." %}</h2>
 <form action="" method="post" id="exchange-form">
     {% csrf_token %}
-    <h3>Сколько баллов вы хотите обменять?</h3><br>
+    <h3>{% trans "Сколько гривен вы хотите получить?" %}</h3><br>
     <label for="exchange-sum"></label><input type="text" name="exchange" id="exchange-sum">
-    <button class="btn btn-md btn-success" type="submit" name="submit-exchange" id="exchange-button">Обменять</button>
+    <button class="btn btn-md btn-success" type="submit" name="submit-exchange" id="exchange-button">{% trans "Получить" %}</button>
     {% endblock content %}
 </form>
 

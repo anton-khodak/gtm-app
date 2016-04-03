@@ -9,6 +9,7 @@ from django.db.models import Count, Sum
 from django_pandas.io import read_frame
 from push_notifications.admin import DeviceAdmin
 from push_notifications.models import APNSDevice, GCMDevice
+
 from constants.excel import export_to_xls
 from constants.helper_functions import translate_column_names, translit
 from users.models import *
@@ -20,13 +21,8 @@ class GTMAdminSite(AdminSite):
 
 class UserForm(forms.ModelForm):
     def save(self, commit=True):
-        self.instance.save()
-        user_groups = UserFilter.objects.all()
-        for group in user_groups:
-            if self.instance in group.get_filtered_user_queryset():
-                group.users.add(self.instance)
-                group.save()
-        return super(UserForm, self).save(commit=commit)
+        self.instance.save(update_groups=True)
+        return super(UserForm, self).save(commit=commit, )
 
     class Meta:
         fields = '__all__'
@@ -46,9 +42,14 @@ class UserProfileAdmin(admin.ModelAdmin):
     ]
 
 
+class SendTextNotificationActionForm(ActionForm):
+    text = forms.CharField(required=False)
+
+
 class UserFilterAdmin(admin.ModelAdmin):
     model = UserFilter
-    actions = ['export_to_xls_users']
+    action_form = SendTextNotificationActionForm
+    actions = ['export_to_xls_users', "send_bulk_message_to_all_users"]
     readonly_fields = ['users']
 
     def export_to_xls_users(self, request, queryset):
@@ -77,24 +78,24 @@ class UserFilterAdmin(admin.ModelAdmin):
         df = translate_column_names(df)
         return export_to_xls(df, translit(el.name) + '.xls', engine='openpyxl')
 
+    def send_bulk_message_to_all_users(self, request, queryset):
+        for el in queryset:
+            android_devices = GCMDevice.objects.filter(user__pk__in=el.users.values_list('pk'))
+            ios_devices = APNSDevice.objects.filter(user__pk__in=el.users.values_list('pk'))
+            android_devices.send_message(request.POST.get('text', ''))
+            ios_devices.send_message(request.POST.get('text', ''))
+
+    send_bulk_message_to_all_users.short_description = 'Отправить сообщение всем пользователям'
+
     export_to_xls_users.short_description = "Выгрузить информацию о группе пользователей в xls"
 
 
 class UserChangeHistoryAdmin(admin.ModelAdmin):
     readonly_fields = ('user', 'exchange', 'date',)
-    list_filter = [('date', DateRangeFilter)]
+    list_filter = [('date', DateRangeFilter), 'user']
     actions = ['export_to_xls_exchange']
 
-    def export_to_xls_exchange(self, request, queryset):
-        UserChangeHistoryAdmin.exchange_to_xls(queryset,
-                                               request.GET.get('drf__day__gte ', ''),
-                                               request.GET.get('drf__day__lte', ''),
-                                               )
-
-    export_to_xls_exchange.short_description = 'Выгрузить информацию об обменах в xls'
-
-    @staticmethod
-    def exchange_to_xls(queryset, day_from='_', day_to='_',):
+    def export_to_xls_exchange(self, request, queryset, ):
         df = read_frame(queryset,
                         index_col='date',
                         verbose=True,
@@ -108,10 +109,11 @@ class UserChangeHistoryAdmin(admin.ModelAdmin):
                         ))
         df = translate_column_names(df)
         return export_to_xls(df,
-                             'exchange' +
-                             + day_from
-                             + '_' + day_to + '.xls',
+                             'exchange' + request.GET.get('drf__day__gte ', '') + '_' +
+                             request.GET.get('drf__day__lte', '') + '.xls',
                              engine='openpyxl')
+
+    export_to_xls_exchange.short_description = 'Выгрузить информацию об обменах в xls'
 
 
 class UserSessionAdmin(admin.ModelAdmin):
@@ -137,20 +139,6 @@ class UserSessionAdmin(admin.ModelAdmin):
     export_to_xls_session.short_description = 'Выгрузить информацию о сессиях в xls'
 
 
-class SendTextNotificationActionForm(ActionForm):
-    text = forms.CharField()
-
-
-class OwnDeviceAdmin(DeviceAdmin):
-    action_form = SendTextNotificationActionForm
-    actions = ("send_bulk_message_to_all_users", "send_bulk_message", "prune_devices", "enable", "disable")
-
-    def send_bulk_message_to_all_users(self, request, queryset):
-        self.send_messages(request, queryset, bulk=True, message=request.POST.get('text', ''))
-
-    send_bulk_message_to_all_users.short_description = 'Отправить сообщение всем пользователям'
-
-
 admin_site = GTMAdminSite(name='admin')
 admin_site.register(UserProfile, UserProfileAdmin)
 admin_site.register(UserExchangeHistory, UserChangeHistoryAdmin)
@@ -158,5 +146,5 @@ admin_site.register(User, UserAdmin)
 admin_site.register(UserFilter, UserFilterAdmin)
 admin_site.register(UserSession, UserSessionAdmin)
 
-admin_site.register(APNSDevice, OwnDeviceAdmin)
-admin_site.register(GCMDevice, OwnDeviceAdmin)
+admin_site.register(APNSDevice, DeviceAdmin)
+admin_site.register(GCMDevice, DeviceAdmin)

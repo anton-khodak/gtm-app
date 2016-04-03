@@ -1,5 +1,4 @@
 import datetime as dt
-
 from django import forms
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
@@ -8,7 +7,6 @@ from django_pandas.io import read_frame
 from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
 from nested_inline.admin import NestedStackedInline, NestedModelAdmin
 from push_notifications.models import APNSDevice, GCMDevice
-
 from constants.excel import export_to_xls
 from constants.helper_functions import translate_column_names, translit
 from polls.models import *
@@ -64,18 +62,16 @@ class PollForm(forms.ModelForm):
             users = user_group.get_filtered_user_queryset()
         else:
             users = UserProfile.objects.all()
-        # new_users_ids = []
         for user in users:
             # Poll.assign_poll_to(user)
             try:
                 UsersPoll.objects.get(poll=self.instance, user=user)
             except ObjectDoesNotExist:
-                userspoll = UsersPoll(poll=self.instance,
-                                      user=user,
-                                      date_assigned=timezone.now(),
-                                      date_passed=timezone.now(),
-                                      passed=False)
-                userspoll.save()
+                UsersPoll.objects.create(poll=self.instance,
+                                         user=user,
+                                         date_assigned=timezone.now(),
+                                         date_passed=timezone.now(),
+                                         passed=False)
                 # new_users_ids.append(user.user.id)
         if self.data.get('send_notification', ''):
             userspolls = UsersPoll.objects.filter(poll=self.instance, user__pk__in=users.values_list('pk'),
@@ -116,8 +112,13 @@ class PollAdmin(NestedModelAdmin):
 
     ]
 
+    class Media:
+        js = ('js/jquery.min.js',
+              'rest_framework/js/own.js',)
+
     def export_to_xls_poll(self, request, queryset):
         PollAdmin.poll_to_xls(request, queryset)
+
     export_to_xls_poll.short_description = 'Выгрузить опросы в xls'
 
     @staticmethod
@@ -212,7 +213,7 @@ class UserPollFilterAdmin(admin.ModelAdmin):
                             'other_answer',
                         ))
         df = translate_column_names(df)
-        return export_to_xls(df, translit(uf.name) + '.xls', engine='openpyxl')
+        return export_to_xls(df, translit(uf.group.name) + '.xls', engine='openpyxl')
 
     export_to_xls_user_poll.short_description = 'Выгрузить опросы пользователей в xls'
 

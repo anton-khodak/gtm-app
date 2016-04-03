@@ -1,20 +1,22 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 {% block title %}
-GTM - Домашняя страница
+GTM - {% trans "Домашняя страница" %}
 {% endblock title %}
 {% block content %}
     <div class="menu">
    <ol class="rounded">
-       <li>             <h1><a href="/text-polls/">Медицинская информация</a></h1>
+       <li>             <h1><a href="/{{ LANGUAGE_CODE }}/text-polls/">{% trans "Медицинская информация" %}</a></h1>
 
        </li>
-       <li>            <h1><a href="/polls/">Аналитика</a></h1>
+       <li>            <h1><a href="/{{ LANGUAGE_CODE }}/polls/">{% trans "Аналитика" %}</a></h1>
 </li>
-       <li>            <h1><a href="/history/">История</a></h1>
+       <li>            <h1><a href="/{{ LANGUAGE_CODE }}/history/">{% trans "История" %}</a></h1>
 </li>
 {#       <li>            <h1><a href="/exchange/">Обмен баллов</a></h1>#}
 {#</li>#}
-       <li>            <h1><a href="/gtm/">GTM</a></h1>
+       <li>            <h1><a href="/{{ LANGUAGE_CODE }}/gtm/">GTM</a></h1>
 </li>
    </ol>
     </div>

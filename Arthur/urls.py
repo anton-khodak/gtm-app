@@ -38,7 +38,10 @@ poll_patern = format_suffix_patterns([
 urlpatterns += i18n_patterns(
 
     url(r'', include('history.urls', namespace='history')),
-    url(r'api/polls', include(poll_patern))
+    url(r'api/polls', include(poll_patern)),
+        url(r'', include('users.urls', namespace='users')),
+    url(r'', include('medicine.urls', namespace='medicine')),
+    url(r'', include('polls.urls', namespace='polls')),
 
 )
 

@@ -1,15 +1,23 @@
 {% extends "website_base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
-{% block home_link %} <a href="/"  class="smoothScroll">Начало</a> {% endblock %}
-{% block about_link %} <a href="/#about"  class="smoothScroll">О компании</a> {% endblock %}
-{% block services_link %} <a href="/#services"  class="smoothScroll">Проекты</a> {% endblock %}
-{% block contact_link %} <a href="/#contact"  class="smoothScroll">Контакты</a> {% endblock %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
+{% block home_link %} <a href="/{{ LANGUAGE_CODE }}/"  class="smoothScroll">
+    {% trans "Начало" %} </a> {% endblock %}
+{% block about_link %} <a href="/{{ LANGUAGE_CODE }}/#about"  class="smoothScroll">
+    {% trans "О компании" %}</a> {% endblock %}
+{% block services_link %} <a href="/{{ LANGUAGE_CODE }}/#services"  class="smoothScroll">
+    {% trans "Проекты" %}</a> {% endblock %}
+{% block contact_link %} <a href="/{{ LANGUAGE_CODE }}/#contact"  class="smoothScroll">
+    {% trans "Контакты" %}</a> {% endblock %}
 
 {% block content %}
 <div class="company-news">
 {% block company_news %}
-    <h2>Новости компании</h2>
+    <h2>{% trans "Новости компании" %}</h2>
     {% if object_list %}
         <div class="news">{% for new in object_list %}
             <div class="news-block content-text">

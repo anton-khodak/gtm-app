@@ -22,11 +22,11 @@ class UserView(generics.RetrieveUpdateAPIView):
         return UserProfile.objects.get(user=self.request.user)
 
     def update(self, request, *args, **kwargs):
-        user = UserProfile.objects.get(user=self.request.user)
-        poll_score = int(request.data['score'])
-        request.data['score'] = poll_score + user.score
-        user.total_score += poll_score
-        user.save()
+        agreement = request.data['user_agreed']
+        if agreement:
+            user = UserProfile.objects.get(user=self.request.user)
+            user.user_agreed = eval(agreement)
+            user.save(update_fields=("user_agreed",))
         return super(UserView, self).update(request, *args, **kwargs)
 
 

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block title %}
     {{ title }}
 {% endblock title %}
@@ -17,7 +18,7 @@
                     <div class="radio-choice"><input type="radio" name="choice"
                                                      value={{ answer.id }}>{{ answer.answer_text }}
                         <br></div>
-                    {% if 'Другое' in answer.answer_text or 'Ответ пользователя' in answer.answer_text or 'другое' in answer.answer_text %}
+                    {% if 'Другое' in answer.answer_text or 'Свій варіант' in answer.answer_text or 'другое' in answer.answer_text or 'свой вариант' in answer.answer_text  or 'свій варіант' in answer.answer_text  or 'інше' in answer.answer_text or 'Інше' in answer.answer_text%}
                         <div class="ui-widget">
                             <label for="user-answer"></label>
                             <input id="user-answer" name="user-answer">
@@ -39,14 +40,14 @@
                      <form action="" method="post">
                                          {% csrf_token %}
                         <button class="btn btn-default proceed final-buttons" name="instruction"
-                                id="instruction">Инструкция
+                                id="instruction">{% trans "Инструкция" %}
                         </button>
                      </form>
                     {% endif %}
                     {% if medicine %}
                             <a href={{ link }} / target="_blank"  class="non-underline">
                         <button class="btn btn-default proceed final-buttons non-underline" name="medicine"
-                                id="search-medicine">Поиск препарата
+                                id="search-medicine">{% trans "Поиск препарата" %}
                         </button></a>
                     {% endif %}
                 <form action="/home/" method="get">

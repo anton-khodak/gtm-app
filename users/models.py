@@ -41,17 +41,20 @@ class UserProfile(models.Model):
     score = models.IntegerField('Баллы', default=0)
     total_score = models.IntegerField('Баллов за всё время', default=0)
     total_exchange = models.IntegerField('Баллов обменяно за всё время', default=0)
+    user_agreed = models.BooleanField('Согласие пользователя', default=False)
 
     def __str__(self):
         return self.user.username
 
-    def save(self, *args, **kwargs):
-
+    def save(self, update_groups=False, *args, **kwargs):
+        if not update_groups:
+            return super(UserProfile, self).save(*args, **kwargs)
         if self.work_phone and len(self.work_phone) < 7:
             self.work_phone = City.objects.get(name=self.city).phone_prefix + self.work_phone
         super(UserProfile, self).save(*args, **kwargs)
         user_groups = UserFilter.objects.all()
         for group in user_groups:
+            print("Group: ", group)
             if self in group.get_filtered_user_queryset():
                 group.users.add(self)
                 group.save()
@@ -62,23 +65,21 @@ class UserProfile(models.Model):
                     try:
                         UsersPoll.objects.get(poll=poll, user=self)
                     except ObjectDoesNotExist:
-                        userspoll = UsersPoll(poll=poll,
-                                              user=self,
-                                              date_assigned=timezone.now(),
-                                              date_passed=timezone.now(),
-                                              passed=False)
-                        userspoll.save()
+                        UsersPoll.objects.create(poll=poll,
+                                                 user=self,
+                                                 date_assigned=timezone.now(),
+                                                 date_passed=timezone.now(),
+                                                 passed=False)
 
                 from history.models import PollHistory, UserHistory
                 for history in PollHistory.objects.filter(user_group=group):
                     try:
                         UserHistory.objects.get(poll=history, user=self)
                     except ObjectDoesNotExist:
-                        userhistory = UserHistory(poll=history,
-                                                user=self)
-                        userhistory.save()
+                        UserHistory.objects.create(poll=history,
+                                                   user=self)
 
-        # return super(UserProfile, self).save(*args, **kwargs)
+        return super(UserProfile, self).save(*args, **kwargs)
 
 
 class UserFilter(models.Model):
@@ -89,7 +90,7 @@ class UserFilter(models.Model):
                               blank=True)
     work = models.ManyToManyField(Hospital, verbose_name='Место работы', default=EMPTY, blank=True)
     curing_form = models.ManyToManyField(CuringForm, verbose_name='Форма лечения', default=None, blank=True)
-    position = models.ManyToManyField(Position, verbose_name='Должность', default=None, related_name='+', blank=True)
+    position = models.ManyToManyField(Position, verbose_name='Должность', default=None, blank=True)
     category = models.ManyToManyField(Category, verbose_name='Специальность', default=None, blank=True)
     speciality = models.ManyToManyField(Speciality, verbose_name='Специальность', default=EMPTY, blank=True)
     area = models.ManyToManyField(Area, verbose_name='Область', default=EMPTY, blank=True)
@@ -100,6 +101,7 @@ class UserFilter(models.Model):
     bed_quantity_to = models.IntegerField('Кол-во койко-мест до', blank=True, null=True)
     patient_quantity_from = models.IntegerField('Кол-во пациентов в месяц от', blank=True, null=True)
     patient_quantity_to = models.IntegerField('Кол-во пациентов в месяц до', blank=True, null=True)
+
     users = models.ManyToManyField(UserProfile, verbose_name='Пользователи в группе', null=True, blank=True)
 
     def get_filtered_user_queryset(self):
@@ -111,12 +113,16 @@ class UserFilter(models.Model):
 
         many_to_many_fields = ['curing_form', 'category', 'work', 'position', 'speciality', 'area', 'city']
         for field in many_to_many_fields:
-            if getattr(self, field):
+            value = getattr(self, field)
+            if value:
                 objects = getattr(self, field).all()
                 q_objects = Q()
                 for obj in objects:
                     q_objects |= Q(**{field: obj})
+                print(q_objects)
+                print(q)
                 q = q.filter(q_objects)
+                print(q)
 
         from_fields = ['age_from', 'bed_quantity_from', 'patient_quantity_from']
         to_fields = ['age_to', 'bed_quantity_to', 'patient_quantity_to']
@@ -132,11 +138,12 @@ class UserFilter(models.Model):
                 q = q.filter(**{field.replace('_to', '') + '__lte': value})
         return q
 
-    # def create_group(self):
-
     def save(self, *args, **kwargs):
-        self.users = self.get_filtered_user_queryset()
         super(UserFilter, self).save(*args, **kwargs)  # Call the "real" save() method.
+        print(self.users)
+        self.users = self.get_filtered_user_queryset()
+        print(self.users)
+        return super(UserFilter, self).save(*args, **kwargs)  # Call the "real" save() method.
 
     def __str__(self):
         return self.name

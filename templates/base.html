@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load rest_framework %}
 {% load i18n %}
-
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -47,12 +47,13 @@
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="/home/">Главная</a></li>
-            <li role="presentation"><a href="/exchange">Обмен баллов</a></li>
-            <li role="presentation"><a href="/contact">Связаться</a></li>
+
+            <li role="presentation" class="active"><a href="/{{ LANGUAGE_CODE }}/home/">{% trans "Главная" %}</a></li>
+            <li role="presentation"><a href="/{{ LANGUAGE_CODE }}/exchange">{% trans "Выплата гривен" %}</a></li>
+            <li role="presentation"><a href="/{{ LANGUAGE_CODE }}/contact">{% trans "Связаться" %}</a></li>
           </ul>
         </nav>
-          <a href="/home/" class="non-underline"><h3 class="text-muted logo-text">GTM</h3></a>
+          <a href="/{{ LANGUAGE_CODE }}/home/" class="non-underline"><h3 class="text-muted logo-text">GTM</h3></a>
       </div>
 
 
@@ -65,7 +66,15 @@
 
     <div class="container">
         <footer class="footer">
-            <div class="container"><p>&copy; 2016 GTM</p></div>
+            <div class="container">
+                <div class="col-sm-4"><p>&copy; 2016 GTM</p></div>
+                <div class="col-sm-6"><span>{% trans "Пользователь" %}: {{ user.username }} | </span><a href="/logout/">{% trans "Выйти" %}</a></div>
+                <div class="col-sm-2">
+            <div style="float:right">
+    <a href="/uk{{ request.path|cut:"/ru"|cut:"/en"|cut:"/uk"}}">укр</a> |
+                    <a href="/ru{{ request.path|cut:"/ru"|cut:"/en"|cut:"/uk"}}">рус</a></div>
+                </div>
+            </div>
         </footer>
     </div>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

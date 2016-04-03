@@ -58,6 +58,9 @@ class Question(models.Model):
         self.poll = self.level
         super(Question, self).save(*args, **kwargs)
 
+    class Meta:
+        ordering = ('id',)
+
 
 class Answer(models.Model):
     answer_text = models.CharField('Вариант ответа',
@@ -113,3 +116,9 @@ class UserPollFilter(models.Model):
         else:
             qs = UserProfile.objects.all()
         return qs
+
+    def __str__(self):
+        for order_choices in ORDER_CHOICES:
+            if order_choices[0] == self.order:
+                order = order_choices[1]
+        return str(self.group) + ' ' + str(order)

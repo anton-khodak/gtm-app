@@ -1,19 +1,4 @@
 $(document).ready(function () {
-    $("#user-answer").autocomplete({
-        source: "/medicine-autocomplete/",
-        minLength: 1,
-    });
-});
-
-$(document).ready(function () {
-    $("#history-list").autocomplete({
-        source: "/history-search/",
-        minLength: 1,
-    });
-});
-
-
-$(document).ready(function () {
 
     $('#history-search').keyup(function () {
 
@@ -36,7 +21,6 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#answer-button').prop('disabled', true);
     $('#user-answer').prop('disabled', true);
-
     $('#user-answer').keyup(function () {
         if ($(this).val() != '') {
             $('button[type="submit"]').prop('disabled', false);
@@ -74,7 +58,7 @@ function Exchange() {
         // handle a successful response
         success: function (json) {
             $('#score').html(json['score']);
-            alert('Успешный обмен ' + json['exchange'] + ' баллов!');
+            alert('Успешная выплата ' + json['exchange'] + ' баллов!');
         },
         // handle a non-successful response
         error: function (xhr, errmsg, err) {
@@ -88,15 +72,8 @@ $(document).ready(function () {
     var but = $('#proceed-question');
     if (but.length) {
         but.prop('disabled', true);
-
-        //var downloadButton = document.getElementById("download");
         var counter = 3;
-        //var newElement = document.createElement("p");
-        //newElement.innerHTML = "You can download the file in 10 seconds.";
         var id;
-
-        //downloadButton.parentNode.replaceChild(newElement, downloadButton);
-
         id = setInterval(function () {
             counter--;
             if (counter < 0) {
@@ -114,3 +91,36 @@ $(document).ready(function () {
     $('table').attr('width', '100%');
 //});
 
+// ADMIN
+
+$(document).ready(function(){
+    $(document).on('change', '#id_poll_type', function () {
+       if ($(this).val() == "simple"){
+           $('.field-text_ru, .field-text_uk').hide();
+       }
+        else{
+           $('.field-text_ru, .field-text_uk').show();
+       }
+    });
+});
+
+$(document).ready(function(){
+    if ($('#id_poll_type').find(':selected').text() == "Простой") {
+        $('.field-text_ru, .field-text_uk').hide();
+    }
+});
+
+
+$(document).ready(function () {
+    $("#user-answer").autocomplete({
+        source: "/medicine-autocomplete/",
+        minLength: 1,
+    });
+});
+
+$(document).ready(function () {
+    $("#history-list").autocomplete({
+        source: "/history-search/",
+        minLength: 1,
+    });
+});

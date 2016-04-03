@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import render
-from django.utils.translation import LANGUAGE_SESSION_KEY
+from django.utils.translation import LANGUAGE_SESSION_KEY, ugettext as _
 from django.views.generic import View
 from django.views.generic.list import ListView
 from rest_framework import generics
@@ -142,7 +142,7 @@ class PollView(View):
                     users_poll_obj.save()
 
                     context = {'text': final,
-                               'button': 'Вернуться в главное меню',
+                               'button': _('Вернуться в главное меню'),
                                'instruction': instruction,
                                'medicine': medicine,
                                'city': city,
@@ -153,7 +153,7 @@ class PollView(View):
                     # Якщо нема відповідей і запит на "інтро" - інтро
                     if additional and poll_element == 'intro':
                         context = {'text': additional['intro'],
-                                   'button': 'Перейти к анализу',
+                                   'button': _('Перейти к анализу'),
                                    'button_name': 'proceed-text'}
                     # Якщо нема початкового, нема відповідей і запит на питання - це перше питання
                     elif poll_element == 'question':
@@ -220,7 +220,7 @@ class PollView(View):
         else:
             context = {'question': question['question_text'],
                        'answers': question['answers'],
-                       'button': 'Подтвердить',
+                       'button': _('Подтвердить'),
                        'button_name': 'proceed-text',}
         return context
 

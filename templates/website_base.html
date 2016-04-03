@@ -2,13 +2,15 @@
 {% load rest_framework %}
 {% load i18n %}
 
+{% get_current_language as LANGUAGE_CODE %}
+
 
 <html lang="ru" class=" js no-touch cssanimations csstransitions"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>GTM</title>
+<title>GTM</title>/
 
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href={% static  "css/bootstrap.css" %} >
@@ -43,16 +45,30 @@
         <a class="navbar-brand white-font   " id="navbar-title" href="/">GTM</a> </div>
       <div class="navbar-collapse collapse ">
         <ul class="nav navbar-nav navbar-right white-font">
-          <li>{% block home_link %}<a href="#home"  class="smoothScroll">Начало</a>{% endblock %}</li>
-          <li>{% block about_link %} <a href="#about" class="smoothScroll"> О компании</a>{% endblock %}</li>
-          <li>{% block services_link %}<a href="#services" class="smoothScroll">Проекты</a>{% endblock %}</li>
-            <li> <a href="/company/news/">Новости компании</a></li>
-            <li> <a href="/company/medicine-news/">Новости медицины</a></li>
+          <li>{% block home_link %}<a href="#home"  class="smoothScroll">
+              {% trans "Начало" %}</a>{% endblock %}</li>
+          <li>{% block about_link %} <a href="#about" class="smoothScroll">
+              {% trans "О компании" %}</a> {% endblock %}</li>
+          <li>{% block services_link %}<a href="#services" class="smoothScroll">
+              {% trans "Проекты" %} </a>{% endblock %}</li>
+            <li> <a href="/{{ LANGUAGE_CODE }}/company/news/">{% trans "Новости компании" %}</a></li>
+            <li> <a href="/{{ LANGUAGE_CODE }}/company/medicine-news/">{% trans "Новости медицины" %}</a></li>
 {#          <li> <a href="#team" class="smoothScroll"> Сотрудники</a></li>#}
-            <li> {% block contact_link %}<a href="#contact" class="smoothScroll"> Контакты</a>{% endblock %}</li>
-            <li> <a href="/home/">e-MR</a></li>
-
+            <li> {% block contact_link %}<a href="#contact" class="smoothScroll">
+                {% trans "Контакты" %}</a>{% endblock %}</li>
+            <li> <a href="/{{ LANGUAGE_CODE }}/home/">e-MR</a></li>
+{#<div class="btn-group">#}
+{#  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#    {{ LANGUAGE_CODE|upper }} <span class="caret"></span>#}
+{#  </button>#}
+{#  <ul class="dropdown-menu">#}
+{#    <li><a href="/ru/">RU</a></li>#}
+{#    <li><a href="/uk/">UA</a></li>#}
+{#    <li><a href="/en">EN</a></li>#}
+{#  </ul>#}
+{#</div>#}
         </ul>
+
       </div>
       <!--/.nav-collapse --> 
     </div>
@@ -68,7 +84,16 @@
 <div id="footerwrap">
   <div class="container">
     <div class="row">
-      <div class="col-md-8"> <span class="copyright">GTM © 2016 </span> </div>
+      <div class="col-md-5"> <span class="copyright">GTM © 2016 </span>
+
+        </div>
+        <div class="col-md-3">
+            <ul class="list-inline" style="padding-top: 8px;">
+                <li><a href="/uk{{ request.path|cut:"/ru"|cut:"/en"|cut:"/uk" }}">Українська</a>
+                </li> |
+                    <li><a href="/ru{{ request.path|cut:"/ru"|cut:"/en"|cut:"/uk"}}">Русский</a></li> |
+                    <li><a href="/en{{ request.path|cut:"/ru"|cut:"/en"|cut:"/uk"}}">English</a></li></ul>
+        </div>
       <div class="col-md-4">
         <ul class="list-inline social-buttons">
 {#          <li><a href="#"><i class="fa fa-twitter"></i></a> </li>#}

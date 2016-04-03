@@ -24,7 +24,7 @@ class Speciality(models.Model):
 
 
 class Hospital(models.Model):
-    name = models.CharField('Название лечебного учреждения', max_length=40)
+    name = models.CharField('Название лечебного учреждения', max_length=100)
 
     def __str__(self):
         return self.name
