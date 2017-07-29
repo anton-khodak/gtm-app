@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% trans "Поиск препаратов" %} {% endblock title %}
+
+{% block content %}
+<form action="" method="post" id="medicine-search-form">
+    {% csrf_token %}
+    <h3>{% trans "Введите название препарата" %}</h3><br>
+    <label for="input-medicine"></label><input type="text" name="name" id="input-medicine">
+    <button class="btn btn-md btn-success" type="submit" name="submit-ms" id="ms-button">{% trans "Поиск" %}</button>
+</form>
+
+<script>
+    $(document).on('click', '#ms-button', function(e){
+        e.preventDefault();
+        link = "http://google.com/search?q=" + $('#input-medicine').val() + "+" + "{{ city }}" + "+купить";
+        var win = window.open(link, '_blank');
+        if(win){
+            //Browser has allowed it to be opened
+            win.focus();
+        }else{
+            //Broswer has blocked it
+            alert('Please allow popups for this site');
+        }
+        $.ajax({
+            url: "/api/search-history/", // the endpoint
+            type: "POST", // http method
+            data: $('#medicine-search-form').serialize(), // data sent with the post request
+            // handle a successful response
+            success: function (json) {
+            },
+            // handle a non-successful response
+            error: function (xhr, errmsg, err) {
+                alert('Что-то пошло не так... Попробуйте ещё раз или свяжитесь с администратором');
+            }
+        })
+    })
+</script>
+{% endblock content %}

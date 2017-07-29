@@ -79,8 +79,4 @@ class UsersPollUpdateSerializer(serializers.ModelSerializer):
 class UserAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAnswer
-
-
-j = UsersPollSerializer
-k = j(UsersPoll.objects.all(), many=True)
-# print(k.data)
+        fields = '__all__'

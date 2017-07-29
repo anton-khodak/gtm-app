@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load poll_extras %}
 {% block title %}
     {{ title }}
 {% endblock title %}
 {% block content %}
     <div class="poll-text">
     {% autoescape off %}
-        {{ text }}
-    {% endautoescape %}
-        {{ question }}
+        {% if text %}
+            {{ text|urlize_and_render_image|linebreaks}}
+        {% endif %}
+
+        {{ question|urlize_and_render_image|linebreaks }}
         {% if question %}
             <br>
             <form action="" method="post" class="question-form">
@@ -18,7 +21,7 @@
                     <div class="radio-choice"><input type="radio" name="choice"
                                                      value={{ answer.id }}>{{ answer.answer_text }}
                         <br></div>
-                    {% if 'Другое' in answer.answer_text or 'Свій варіант' in answer.answer_text or 'другое' in answer.answer_text or 'свой вариант' in answer.answer_text  or 'свій варіант' in answer.answer_text  or 'інше' in answer.answer_text or 'Інше' in answer.answer_text%}
+                    {% if 'Другое' in answer.answer_text or 'Свій варіант' in answer.answer_text or 'другое' in answer.answer_text or 'свой вариант' in answer.answer_text or 'Свой вариант' in answer.answer_text  or 'свій варіант' in answer.answer_text  or 'інше' in answer.answer_text or 'Інше' in answer.answer_text%}
                         <div class="ui-widget">
                             <label for="user-answer"></label>
                             <input id="user-answer" name="user-answer">
@@ -59,5 +62,5 @@
             </div>
         {% endif %}
 
-
+    {% endautoescape %}
 {% endblock content %}

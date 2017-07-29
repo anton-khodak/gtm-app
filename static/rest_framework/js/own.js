@@ -1,7 +1,6 @@
 $(document).ready(function () {
 
     $('#history-search').keyup(function () {
-
         $.ajax({
             type: "GET",
             url: "/history-search/",
@@ -58,7 +57,7 @@ function Exchange() {
         // handle a successful response
         success: function (json) {
             $('#score').html(json['score']);
-            alert('Успешная выплата ' + json['exchange'] + ' баллов!');
+            alert('Успешная выплата ' + json['exchange'] + ' гривен!');
         },
         // handle a non-successful response
         error: function (xhr, errmsg, err) {
@@ -71,13 +70,14 @@ function Exchange() {
 $(document).ready(function () {
     var but = $('#proceed-question');
     if (but.length) {
+        var val = but.text();
         but.prop('disabled', true);
-        var counter = 3;
+        var counter = 15;
         var id;
         id = setInterval(function () {
             counter--;
             if (counter < 0) {
-                but.html("К опросу");
+                but.html(val);
                 but.prop('disabled', false);
                 clearInterval(id);
             } else {
@@ -86,10 +86,6 @@ $(document).ready(function () {
         }, 1000);
     }
 });
-
-//$(document).ready(function () {
-    $('table').attr('width', '100%');
-//});
 
 // ADMIN
 

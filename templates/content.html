@@ -1,5 +1,13 @@
-<ul class="border object-list">
-        {% for poll in object_list %}
-            <a href={{ poll.poll.id }}/ ><li>{{ poll.poll }}</li></a>
-        {% endfor %}
-    </ul>
+{% load i18n %}
+
+{% if object_list %}
+    <ul class="border object-list">
+
+            {% for poll in object_list %}
+                <a href={{ poll.poll.id }}/ ><li>{{ poll.poll }}</li></a>
+            {% endfor %}
+
+        </ul>
+{% else %}
+        <p class="content-text">{% trans "Нет новых опросов." %}</p>
+    {% endif %}

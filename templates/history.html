@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load poll_extras %}
 {% block title %}
 {% trans "История" %}
 {% endblock title %}
 {% block content %}
 
 <h2>{{ name }}</h2>
-    <div class="poll-text">{{ text }}</div>
+    <div class="poll-text">
+    {% autoescape off %}
+        {{ text|urlize_and_render_image|linebreaks }}
+    {% endautoescape %}
+</div>
 
 {% endblock content %}

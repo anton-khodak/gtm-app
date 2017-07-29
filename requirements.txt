@@ -1,0 +1,13 @@
+celery
+django==1.9
+django-modeltranslation
+django-push-notifications
+django-multiselectfield
+djangorestframework
+django-s3-folder-storage==0.3
+django-daterange-filter
+django-pandas
+django-nested-admin
+django-nested-inline
+django-ajax-selects
+psycopg2

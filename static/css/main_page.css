@@ -647,3 +647,9 @@ p{
         overflow: hidden!important;
     }
 }
+
+@media (max-width: 345px) {
+    .main-slogan{
+        font-size: 39px !important;
+    }
+}

@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+{% block title %}
+    {% trans "Контакты" %}
+{% endblock title%}
 {% block content %}
     <div class="content-text">
-       {% trans "Если у вас возникли трудности или неполадки, свяжитесь с администратором по адресу: service@gtm.com.ua" %}
+       {% trans "Если у вас возникли трудности или неполадки, свяжитесь с администратором по адресу: office@gtm.com.ua" %}
+        <p></p>
+        <p>МТС +38 066-550-88-13</p>
+        <p>{% trans "Киевстар" %} +38 068-678-30-38</p>
+        <p>Lifecell +38 073-037-11-96</p>
+        <p>Facebook: <a href="https://www.facebook.com/electronicMR/">https://www.facebook.com/electronicMR/</a></p>
     </div>
 {% endblock %}

@@ -30,7 +30,8 @@ class HistoryView(View):
 
     def get(self, request, *args, **kwargs):
         history = UserHistory.objects.get(user__user=request.user, poll__id=kwargs['history_id'])
-        context = {'name': history.poll.name, 'text': history.poll.text}
+        context = {'name': history.poll.name,
+                   'text': history.poll.text}
         return render(request, self.template_name, context)
 
 

@@ -1,4 +1,6 @@
 from django.http import JsonResponse
+from django.http.request import QueryDict
+from django.shortcuts import render
 from django.views.generic import View
 from rest_framework import generics
 from rest_framework import permissions
@@ -19,12 +21,14 @@ class UserSearchHistoryList(generics.ListCreateAPIView):
     serializer_class = SearchHistorySerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
-        data = request.data
-        user = request.user
-        for item in data:
-            item['user'] = user
-        print(request.data)
+        if type(request.data) is QueryDict:
+            request.data._mutable = True
+            request.data['user'] = request.user
+        else:
+            data = request.data
+            user = request.user
+            for item in data:
+                item['user'] = user
         return super(UserSearchHistoryList, self).create(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -55,3 +59,17 @@ class MedicineAutocomplete(View):
         else:
             results = 'fail'
         return JsonResponse(results, safe=False)
+
+
+class MedicineSearchView(View):
+    template_name = "medicine_search.html"
+
+    def get(self, request):
+        user = UserProfile.objects.get(pk=request.user.id)
+        context = {'city': user.city.name.replace(" ", "+")}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        view = UserSearchHistoryList.as_view()
+        return view(request, *args, **kwargs)
+

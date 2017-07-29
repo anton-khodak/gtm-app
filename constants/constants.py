@@ -1,5 +1,7 @@
 EMPTY = ' '
 
+# TODO: змінити усі англійські константи на цифри
+
 GENDER_CHOICES = [
     ('male', 'Мужчина'),
     ('female', 'Женщина')
@@ -64,6 +66,7 @@ COLUMN_NAMES_TRANSLATE_DICT = {
     # Polls
     'question__poll__id': 'ID опроса',
     'question__poll__name': 'Название опроса',
+    'poll__name': 'Название опроса',
     'question__id': 'ID вопроса',
     'question__question_text': 'Текст вопроса',
     'id': 'ID ответа',
@@ -83,11 +86,26 @@ COLUMN_NAMES_TRANSLATE_DICT = {
     'answer__id': 'ID ответа',
     'answer__answer_text': 'Текст ответа',
     'other_answer': 'Ответ пользователя',
+    'date_answered': 'Дата ответа',
+    'date_assigned': 'Дата получения',
     # Search History
     'name': 'Название лекарства',
     # User Session
     'duration': 'Длительность сеанса',
-    'time': 'Время сеанса'
+    'time': 'Время сеанса',
+    'user__user__first_name': 'Имя',
+    'user__user__last_name': 'Отчество',
+    'user__gender': 'Пол',
+    'user__additional_speciality': 'Cпециальности',
+    'additional_speciality': 'Cпециальности',
+    'works': 'Место работы',
+    'positions': 'Должность',
+    'groups': 'Группы',
+    'user__area': 'Область',
+    'user__city': 'Город',
+    'user__curing_form': 'Форма лечения',
+    'user__category': 'Категория',
+    'user__userspoll__date_passed': 'Дата прохождения',
 }
 
 GENDER_CHOICES_USER_PROFILE = GENDER_CHOICES.copy()

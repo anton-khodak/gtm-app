@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-03 23:27+0300\n"
+"POT-Creation-Date: 2016-08-02 23:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,15 +28,27 @@ msgstr ""
 msgid "English"
 msgstr ""
 
-#: .\polls\views.py:145
+#: .\polls\views.py:156
 msgid "Вернуться в главное меню"
 msgstr ""
 
-#: .\polls\views.py:156
+#: .\polls\views.py:167
 msgid "Перейти к анализу"
 msgstr ""
 
-#: .\polls\views.py:223
+#: .\polls\views.py:237
+#, fuzzy
+#| msgid "Проекты"
+msgid "Опрос"
+msgstr "Projects"
+
+#: .\polls\views.py:239
+#, fuzzy
+#| msgid "Проекты"
+msgid "Продолжить"
+msgstr "Projects"
+
+#: .\polls\views.py:243
 msgid "Подтвердить"
 msgstr ""
 
@@ -45,28 +57,24 @@ msgid "Компания GTM создана в марте 2016-го года."
 msgstr ""
 
 #: .\templates\agreement.html:4 .\templates\agreement.html.py:7
-#: .\templates\gtm.html:23
+#: .\templates\gtm.html:24
 msgid "Пользовательское соглашение"
 msgstr ""
 
-#: .\templates\base.html:51
+#: .\templates\base.html:52
 msgid "Главная"
 msgstr ""
 
-#: .\templates\base.html:52 .\templates\exchange.html.py:5
-#: .\templates\gtm.html:26
-msgid "Выплата гривен"
+#: .\templates\base.html:53 .\templates\exchange.html.py:5
+#: .\templates\gtm.html:27
+msgid "Счёт"
 msgstr ""
 
-#: .\templates\base.html:53
+#: .\templates\base.html:54
 msgid "Связаться"
 msgstr ""
 
-#: .\templates\base.html:71
-msgid "Пользователь"
-msgstr ""
-
-#: .\templates\base.html:71
+#: .\templates\base.html:72
 msgid "Выйти"
 msgstr ""
 
@@ -89,14 +97,15 @@ msgstr "Our company"
 
 #: .\templates\company.html:30
 msgid ""
-"Целью компании GTM (Go To Marketing) является создание эффективных "
+"Целью компания GTM (Go To Marketing) является создание эффективных "
 "интерактивных коммуникаций между специалистами в области фармацевтики и "
-"здравоохранения. Мы создаем необходимые условия, для того, чтобы информация, "
+"здравоохранения. Мы создаем необходимые условия для того, чтобы информация, "
 "получаемая специалистами, была не только достоверной, полезной и "
-"релевантной, но и удобной в получении, использовании и хранении.Оценка "
-"специалистами качества информации, посредством интерактивных коммуникативных "
-"каналов, позволяет создавать продукт, соответствующий ожиданиям медицинского "
-"сообщества"
+"релевантной, но и удобной в получении, использовании и хранении. Оценка "
+"специалистами здравоохранения качества информации, которая проходит в режиме "
+"реального времени, по не искажающим коммуникативным каналам, позволяет "
+"создавать продукт, который будет точно соответствовать ожиданиям "
+"медицинского сообщества."
 msgstr ""
 "The aim of the company GTM (Go To Marketing) is to establish effective "
 "interactive communication between specialists pharmaceuticals and health "
@@ -143,7 +152,7 @@ msgstr ""
 
 #: .\templates\company.html:53
 msgid ""
-"Программный комплекс e-MR (electronic – Medical Representative является "
+"Программный комплекс e-MR (electronic – Medical Representative) является "
 "оригинальной разработкой компании GTM и призван повысить уровень "
 "коммуникации между специалистами в области фармацевтики и здравоохранения."
 msgstr ""
@@ -177,7 +186,8 @@ msgstr ""
 "allows you to create the most useful information and analytical units."
 
 #: .\templates\company.html:122 .\templates\company_news.html.py:15
-#: .\templates\gtm.html:18 .\templates\website_base.html.py:58
+#: .\templates\contact.html:4 .\templates\gtm.html.py:18
+#: .\templates\website_base.html:58
 msgid "Контакты"
 msgstr "Contacts"
 
@@ -193,7 +203,7 @@ msgstr "Kyiv, Ukraine, 03179"
 msgid "МТС"
 msgstr "MTC"
 
-#: .\templates\company.html:134
+#: .\templates\company.html:134 .\templates\contact.html.py:11
 msgid "Киевстар"
 msgstr "Kyivstar"
 
@@ -209,10 +219,14 @@ msgstr "Projects"
 msgid "Новости компании"
 msgstr "Company news"
 
-#: .\templates\contact.html:6
+#: .\templates\contact.html:8
 msgid ""
 "Если у вас возникли трудности или неполадки, свяжитесь с администратором по "
-"адресу: service@gtm.com.ua"
+"адресу: office@gtm.com.ua"
+msgstr ""
+
+#: .\templates\content.html:12
+msgid "Нет новых опросов."
 msgstr ""
 
 #: .\templates\exchange.html:8
@@ -233,6 +247,10 @@ msgstr ""
 
 #: .\templates\gtm.html:15 .\templates\news.html.py:5 .\templates\news.html:8
 msgid "Новости"
+msgstr ""
+
+#: .\templates\gtm.html:21 .\templates\medicine_search.html.py:6
+msgid "Поиск препаратов"
 msgstr ""
 
 #: .\templates\history.html:4 .\templates\history_list.html.py:5
@@ -256,14 +274,31 @@ msgstr ""
 msgid "Аналитика"
 msgstr ""
 
-#: .\templates\poll.html:43
+#: .\templates\medicine_search.html:11
+msgid "Введите название препарата"
+msgstr ""
+
+#: .\templates\medicine_search.html:13
+msgid "Поиск"
+msgstr ""
+
+#: .\templates\poll.html:45
 msgid "Инструкция"
 msgstr ""
 
-#: .\templates\poll.html:50
+#: .\templates\poll.html:52
 msgid "Поиск препарата"
 msgstr ""
+
+#: .\templates\polls.html:4
+msgid "Опросы"
+msgstr "Projects"
 
 #: .\templates\website_base.html:55
 msgid "Новости медицины"
 msgstr "Medical news"
+
+#, fuzzy
+#~| msgid "Киевстар"
+#~ msgid "Київстар"
+#~ msgstr "Kyivstar"

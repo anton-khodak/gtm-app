@@ -1,7 +1,6 @@
-from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import render
-from django.utils.translation import LANGUAGE_SESSION_KEY, ugettext as _
+from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic.list import ListView
 from rest_framework import generics
@@ -19,7 +18,6 @@ class UsersPollList(generics.ListAPIView):
         # request.session[LANGUAGE_SESSION_KEY] = lang
         return super(UsersPollList, self).get(self, request, *args, **kwargs)
 
-
     def get_queryset(self):
         return UsersPoll.objects.filter(user__user=self.request.user) \
             .filter(passed=False) \
@@ -30,10 +28,7 @@ class UsersPollFullList(UsersPollList):
     serializer_class = UsersPollFullSerializer
 
     def get_queryset(self):
-        l = UsersPoll.objects.filter(user__user=self.request.user) \
-            .order_by('-date_assigned')
-        print(l)
-        return l
+        return UsersPoll.objects.filter(user__user=self.request.user).order_by('-date_assigned')
 
 
 class UserAnswerList(generics.ListCreateAPIView):
@@ -67,7 +62,6 @@ class UserPollPassedView(generics.UpdateAPIView):
         self.data = request.data.copy()
         self.data['date_passed'] = timezone.now()
         self.data['passed'] = True
-        print(self.data['passed'])
         user = UserProfile.objects.get(user=self.request.user)
         poll_score = Poll.objects.get(pk=int(request.data['poll'])).score
         user.score += poll_score
@@ -108,6 +102,9 @@ class PollView(View):
             users_poll = UsersPollSerializer(users_poll_obj)
             start_question = UsersPollSerializer.get_start_question(users_poll_obj)
             initial_question = users_poll.data['poll']['questions'][0]['id']
+            current_question = kwargs.get('question_id', '')
+            if current_question:
+                current_question = int(current_question)
         except ObjectDoesNotExist:
             raise Http404
 
@@ -115,7 +112,15 @@ class PollView(View):
             poll_element = kwargs['poll_element']
             # Якщо є початкове питання - рендеринг або тексту, або самого початкового питання
             if start_question:
-                context = PollView.get_question_context(self, start_question, poll_element, users_poll)
+                if kwargs.get('question_id', ''):
+                    if (poll_element == 'atext'):
+                        # users_poll.get_question_by_id(int(kwargs['question_id']))['question_text']:
+                        start_question = current_question
+                        poll_element = 'text'
+            if start_question:
+                if current_question and current_question > start_question:
+                    start_question = current_question
+                context = PollView.get_question_context(start_question, poll_element, users_poll)
             else:
                 answers = UserAnswer.objects.filter(question__poll=poll_id, user__user=user)
                 # Якщо є відповіді, але нема початкового питання - це фінальний текст
@@ -137,9 +142,15 @@ class PollView(View):
                     except TypeError:
                         medicine = city = link = None
                         pass
-                    users_poll_obj.passed = True
-                    users_poll_obj.date_passed = timezone.now()
-                    users_poll_obj.save()
+                    if not users_poll_obj.passed:
+                        users_poll_obj.passed = True
+                        users_poll_obj.date_passed = timezone.now()
+                        user = UserProfile.objects.get(user=user)
+                        poll_score = int(users_poll.data['poll']['score'])
+                        user.score += poll_score
+                        user.total_score += poll_score
+                        user.save()
+                        users_poll_obj.save()
 
                     context = {'text': final,
                                'button': _('Вернуться в главное меню'),
@@ -157,10 +168,11 @@ class PollView(View):
                                    'button_name': 'proceed-text'}
                     # Якщо нема початкового, нема відповідей і запит на питання - це перше питання
                     elif poll_element == 'question':
-                        context = PollView.get_question_context(self, initial_question, 'question', users_poll)
+                        context = PollView.get_question_context(initial_question, 'question', users_poll)
+
                     # Якщо запит на перший текст або на інтро, коли інтро немає
                     else:
-                        context = PollView.get_question_context(self, initial_question, 'text', users_poll)
+                        context = PollView.get_question_context(initial_question, 'text', users_poll)
         # Якщо посилання без вказання елементу, перехід зі списку
         else:
             if start_question:
@@ -168,8 +180,6 @@ class PollView(View):
             else:
                 return HttpResponseRedirect('intro/')
         context['title'] = users_poll_obj.poll.name
-        if context.get('text', ''):
-            context['text'] = context['text'].replace('{{', '<img width="100%" src="').replace('}}', '">')
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -186,18 +196,24 @@ class PollView(View):
             answer = int(post['choice'])
             own_answer = post.get('user-answer', '')
             user_answer, created = UserAnswer.objects.update_or_create(user=UserProfile.objects.get(user=request.user),
-                                                                       answer=Answer.objects.get(pk=answer),
-                                                                       other_answer=own_answer,
-                                                                       question=Question.objects.get(
-                                                                           pk=int(question_id)))
+                                                                       question=Question.objects.get(pk=int(question_id)),
+                                                                       defaults={
+                                                                           'answer': Answer.objects.get(pk=answer),
+                                                                           'other_answer': own_answer,
+                                                                       })
             user_answer.save()
             next_question = Answer.objects.get(pk=answer).next_question
             if next_question:
                 return HttpResponseRedirect('/polls/' + poll_id + '/text/' + str(next_question.id) + '/')
             else:
                 return HttpResponseRedirect('/polls/' + poll_id + '/final/')
+        elif 'proceed-final' in post:
+            return HttpResponseRedirect('/polls/' + poll_id + '/final/')
         elif 'proceed-text' in post:
             return HttpResponseRedirect('/polls/' + poll_id + '/text/' + question_id + '/')
+        elif 'proceed-text-without-question' in post:
+            question_id = Answer.objects.get(question__id=int(kwargs['question_id'])).next_question.id
+            return HttpResponseRedirect('/polls/' + poll_id + '/atext/' + str(question_id))
         elif 'proceed-question' in post:
             return HttpResponseRedirect('/polls/' + poll_id + '/question/' + question_id + '/')
         elif 'instruction' in post:
@@ -212,17 +228,19 @@ class PollView(View):
         elif 'main-menu' in post:
             return HttpResponseRedirect('/home/')
 
-    # @staticmethod
-    def get_question_context(self, _question, poll_element, users_poll):
+    @staticmethod
+    def get_question_context(_question, poll_element, users_poll):
         question = users_poll.get_question_by_id(_question)
+
         if question['text'] and poll_element == 'text':
-            context = {'text': question['text'], 'button': 'Опрос', 'button_name': 'proceed-question'}
+            if question['question_text']:
+                context = {'text': question['text'], 'button': _('Опрос'), 'button_name': 'proceed-question'}
+            else:
+                context = {'text': question['text'], 'button': _('Продолжить'), 'button_name': 'proceed-text-without-question'}
         else:
             context = {'question': question['question_text'],
                        'answers': question['answers'],
                        'button': _('Подтвердить'),
-                       'button_name': 'proceed-text',}
+                       'button_name': 'proceed-text', }
+            context['question'] = context['question']
         return context
-
-    def get_object(self):
-        return Medicine.objects.all()

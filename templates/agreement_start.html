@@ -1,0 +1,125 @@
+{% load staticfiles %}
+
+{% load rest_framework %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
+</script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src={% static 'rest_framework/js/own.js' %}></script>
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Користувацька згода</title>
+{% block style %}
+    <!-- Bootstrap core CSS -->
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap-3.3.2-dist/css/bootstrap.min.css" %}">
+
+    <!-- Підібрані стилі саме для цього шаблона -->
+{#    <link href="../static/bootstrap-3.3.2-dist/css/sticky-footer-navbar.css" rel="stylesheet">#}
+
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap-3.3.2-dist/css/jumbotron-narrow.css" %}">
+      <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/own.css" %}"/>
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+{% endblock style %}
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+
+{#            <li role="presentation" class="active"><a href="/{{ LANGUAGE_CODE }}/home/">{% trans "Главная" %}</a></li>#}
+{#            <li role="presentation"><a href="/{{ LANGUAGE_CODE }}/exchange">{% trans "Выплата гривен" %}</a></li>#}
+{#            <li role="presentation"><a href="/{{ LANGUAGE_CODE }}/contact">{% trans "Связаться" %}</a></li>#}
+          </ul>
+        </nav>
+          <a href="/{{ LANGUAGE_CODE }}/home/" class="non-underline"><h3 class="text-muted logo-text">GTM</h3></a>
+      </div>
+
+
+        <div class="content">   {% block content %}
+
+
+            <h2>Користувацька згода</h2>
+
+        <div class="content-text">
+        ТОВ «Джі Ті Ем» адресує особам, що мають повну вищу освіту у медичній галузі, дану оферту у якості пропозиції укласти Договір про користування інформаційною базою даних фізичним особам, які бажають мати доступ до додатку e-MR.
+<ol>
+    <li>За Договором про користування інформаційною базою даних (далі – Договір) фахівець у сфері охорони здоров’я (далі – Фахівець) отримує доступ до інформації про лікарські засоби та інші медичні препарати, яку адмініструє ТОВ «Джі Ті Ем». Вказану інформацію Фахівець може використовувати для здобуття нових професійних знань, підвищення своєї професійної кваліфікації а також у будь-який не заборонений законодавством України спосіб в ході своєї професійної діяльності.</li>
+<li>Користування вказаним додатком та одержання інформації з нього є безкоштовним.</li>
+<li>Уклавши відповідний договір, Фахівець за своїм бажанням може бути залученим у якості учасника виявлення громадської думки з приводу нових медичних препаратів, їх ефективності, доступності та поширення в аптеках та закладах охорони здоров’я, досвіду їх призначення пацієнтам тощо. За участь у вказаних опитуваннях ТОВ «Джі Ті Ем» сплачуватиме на користь Фахівців винагороду, розмір та порядок виплати якої буде зазначено у відповідному розділі такого опитування.</li>
+<li>Винагорода за участь у опитуваннях сплачується виключно шляхом безготівкового переказу на банківську картку Фахівця. Всі податки, збори та відрахування з таких виплат здійснює ТОВ «Джі Ті Ем». За зверненням Фахівця, ТОВ «Джі Ті Ем» може надати допомогу щодо оформлення банківської картки Фахівцю. Вказана послуга є безкоштовною.
+</li><li>Для участі в роботі додатку e-MR, а також для участі в оплачуваних опитуваннях, Фахівцеві слід акцептувати вказану оферту, шляхом проставляння відповідної відмітки на цій сторінці, а також укласти письмовий Договір.</li>
+</ol>
+            <h3>Визначення</h3>
+<ol>
+    <li>Система e-MR - база даних про лікарські засоби та інші медичні препарати, які пропонуються до продажу в Україні або, які перебувають на стадії розробки.</li>
+<li>Фахівець у сфері охорони здоров’я – особа, яка здобула вищу медичну чи фармацевтичну освіту, якій присвоєно передбачену законодавством кваліфікацію в сфері охорони здоров’я та, яка працює за визначеною законодавством лікарською чи фармацевтичною спеціальностю.</li>
+<li>Представник - фізична особа, уповноважена відповідною довіреністю, виданою
+ТОВ «Джі Ті Ем».</li>
+<li>Унікальне ім’я (логін) - символьний код, який використовується для роботи з системою. Надається користувачу один раз при підключенні до системи, є унікальним для кожного користувача та зберігається за ним на весь час.</li>
+<li>Програмне забезпечення – комп’ютерна програма e-MR призначена для пошуку, перегляду та виводу інформації в базах даних. Програма e-MR працює в режимі клієнт-сервер.</li>
+</ol>
+        </div>
+           <form action="" method="post">
+           {% csrf_token %}
+            <input type="checkbox" id="agreement"> Я ознайомлений(-на) та погоджуюся з умовами даного договору
+          </form>  <script>
+            $('document').ready(function(){
+              $('#agreement').click(function(e){
+                  $.ajax({
+                    type: "PUT",
+                    url: "/api/user/",
+                    data: {
+                        'user_agreed': 'True',
+                        'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+                    },
+                    success: function (data) {
+                        window.location.replace('/home/');
+                    },
+        });
+              }
+              )
+            })
+            </script>
+        {% endblock content %}</div>
+
+
+    </div> <!-- /container -->
+
+    <div class="container">
+        <footer class="footer">
+            <div class="container">
+                <div class="col-sm-4"><p>&copy; 2016 GTM</p></div>
+{#                <div class="col-sm-6"><span>{% trans "Пользователь" %}: {{ user.username }} | </span><a href="/logout/">{% trans "Выйти" %}</a></div>#}
+{#                <div class="col-sm-2">#}
+{#            <div style="float:right">#}
+{#    <a href="/uk{{ request.path|cut:"/ru"|cut:"/en"|cut:"/uk"}}">укр</a> |#}
+{#                    <a href="/ru{{ request.path|cut:"/ru"|cut:"/en"|cut:"/uk"}}">рус</a></div>#}
+{#                </div>#}
+            </div>
+        </footer>
+    </div>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

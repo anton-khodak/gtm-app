@@ -16,6 +16,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
 </script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
     <script type="text/javascript" src={% static 'rest_framework/js/own.js' %}></script>
+    <script type="text/javascript" src={% static 'rest_framework/js/emr.js' %}></script>
     <link rel="icon" href="../../favicon.ico">
 
     <title>{% block title %}Narrow Jumbotron Template for Bootstrap{% endblock %}</title>
@@ -49,11 +50,11 @@
           <ul class="nav nav-pills pull-right">
 
             <li role="presentation" class="active"><a href="/{{ LANGUAGE_CODE }}/home/">{% trans "Главная" %}</a></li>
-            <li role="presentation"><a href="/{{ LANGUAGE_CODE }}/exchange">{% trans "Выплата гривен" %}</a></li>
+            <li role="presentation"><a href="/{{ LANGUAGE_CODE }}/exchange">{% trans "Счёт" %}</a></li>
             <li role="presentation"><a href="/{{ LANGUAGE_CODE }}/contact">{% trans "Связаться" %}</a></li>
           </ul>
         </nav>
-          <a href="/{{ LANGUAGE_CODE }}/home/" class="non-underline"><h3 class="text-muted logo-text">GTM</h3></a>
+          <a href="/{{ LANGUAGE_CODE }}/home/" class="non-underline"><h3 class="text-muted logo-text">e-MR</h3></a>
       </div>
 
 
@@ -67,8 +68,8 @@
     <div class="container">
         <footer class="footer">
             <div class="container">
-                <div class="col-sm-4"><p>&copy; 2016 GTM</p></div>
-                <div class="col-sm-6"><span>{% trans "Пользователь" %}: {{ user.username }} | </span><a href="/logout/">{% trans "Выйти" %}</a></div>
+                <div class="col-sm-4"><p>&copy; 2017 <a href="http://www.gtm.com.ua">GTM</a></p></div>
+                <div class="col-sm-6">{{ user.first_name }} {{ user.last_name }} | <a href="/logout/">{% trans "Выйти" %}</a></div>
                 <div class="col-sm-2">
             <div style="float:right">
     <a href="/uk{{ request.path|cut:"/ru"|cut:"/en"|cut:"/uk"}}">укр</a> |
@@ -78,6 +79,10 @@
         </footer>
     </div>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <form action="" method="post" class="session">
+    {% csrf_token %}
+        </form>
+
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
